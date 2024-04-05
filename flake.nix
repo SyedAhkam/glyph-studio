@@ -41,24 +41,24 @@
             with sdkPkgs;
             [
               # Useful packages for building and testing.
-              build-tools-34-0-0
+              build-tools-30-0-3
               cmdline-tools-latest
               emulator
               platform-tools
-              platforms-android-34
-              system-images-android-34-google-apis-x86-64
+              platforms-android-33
+              system-images-android-33-google-apis-x86-64
 
               # Other useful packages for a development environment.
               # ndk-26-1-10909125
               # skiaparser-3
-              # sources-android-34
+              # sources-android-33
             ] ++ lib.optionals (system == "aarch64-darwin") [
-              # system-images-android-34-google-apis-arm64-v8a
-              # system-images-android-34-google-apis-playstore-arm64-v8a
+              # system-images-android-33-google-apis-arm64-v8a
+              # system-images-android-33-google-apis-playstore-arm64-v8a
             ] ++ lib.optionals
             (system == "x86_64-darwin" || system == "x86_64-linux") [
-              # system-images-android-34-google-apis-x86-64
-              # system-images-android-34-google-apis-playstore-x86-64
+              # system-images-android-33-google-apis-x86-64
+              # system-images-android-33-google-apis-playstore-x86-64
             ]);
         } // lib.optionalAttrs (system == "x86_64-linux") {
           # Android Studio in nixpkgs is currently packaged for x86_64-linux only.

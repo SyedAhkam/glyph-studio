@@ -21,19 +21,24 @@ devshell.mkShell {
     }
     {
       name = "JAVA_HOME";
-      value = jdk.home;
+      value = jdk19.home;
+    }
+    {
+      name = "GRADLE_OPTS";
+      value =
+        "-Dorg.gradle.project.android.aapt2FromMavenOverride=${android-sdk}/share/android-sdk/build-tools/30.0.3/aapt2";
     }
   ];
   commands = [
     {
       name = "create-avd";
       command =
-        "avdmanager create avd --force --name phone --abi google_apis/x86_64 --package 'system-images;android-34;google_apis;x86_64'";
+        "avdmanager create avd --force --name phone --abi google_apis/x86_64 --package 'system-images;android-33;google_apis;x86_64'";
     }
     {
       name = "launch-emulator";
       command = "nixGLMesa emulator -avd phone";
     }
   ];
-  packages = [ android-sdk gradle jdk flutter ];
+  packages = [ android-sdk gradle jdk19 flutter ];
 }
