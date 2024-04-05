@@ -1,5 +1,5 @@
 {
-  description = "My Android project";
+  description = "Dev configuration for a flutter based app with android-sdk";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
