@@ -7,9 +7,11 @@
     flake-utils.url = "github:numtide/flake-utils";
     android.url = "github:tadfisher/android-nixpkgs";
     flutter-nix.url = "github:maximoffua/flutter.nix/stable";
+    nixgl.url = "github:nix-community/nixGL";
   };
 
-  outputs = { self, nixpkgs, devshell, flake-utils, android, flutter-nix }:
+  outputs =
+    { self, nixpkgs, devshell, flake-utils, android, flutter-nix, nixgl }:
     {
       overlay = final: prev: {
         inherit (self.packages.${final.system}) android-sdk android-studio;
@@ -27,11 +29,13 @@
           overlays = [
             devshell.overlays.default
             flutter-nix.overlays.default
+            nixgl.overlay
             self.overlay
           ];
         };
       in {
         packages = {
+          nixgl = nixgl.nixGlDefault;
           flutter = flutter-nix.packages.${system}.flutter;
           android-sdk = android.sdk.${system} (sdkPkgs:
             with sdkPkgs;
@@ -42,6 +46,7 @@
               emulator
               platform-tools
               platforms-android-34
+              system-images-android-34-google-apis-x86-64
 
               # Other useful packages for a development environment.
               # ndk-26-1-10909125

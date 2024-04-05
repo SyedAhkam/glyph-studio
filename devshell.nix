@@ -24,5 +24,16 @@ devshell.mkShell {
       value = jdk.home;
     }
   ];
+  commands = [
+    {
+      name = "create-avd";
+      command =
+        "avdmanager create avd --force --name phone --abi google_apis/x86_64 --package 'system-images;android-34;google_apis;x86_64'";
+    }
+    {
+      name = "launch-emulator";
+      command = "nixGLMesa emulator -avd phone";
+    }
+  ];
   packages = [ android-sdk gradle jdk flutter ];
 }
