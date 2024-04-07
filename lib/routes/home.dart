@@ -5,6 +5,12 @@ class HomeRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("Hello")));
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("GLYPH STUDIO"),
+          actions: const [Text("~"), SizedBox(width: 24)],
+        ),
+        body: const Center(child: Text("Hello")));
   }
 }
