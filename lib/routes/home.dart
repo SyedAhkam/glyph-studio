@@ -5,11 +5,18 @@ class HomeRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("GLYPH STUDIO"),
-          actions: const [Text("~"), SizedBox(width: 24)],
+          title: Text("GLYPH (STUDIO)", style: theme.textTheme.displaySmall),
+          actions: [
+            IconButton(
+                icon: Text("~", style: theme.textTheme.displaySmall),
+                onPressed: () {}),
+            const SizedBox(width: 8)
+          ],
         ),
         body: const Center(child: Text("Hello")));
   }

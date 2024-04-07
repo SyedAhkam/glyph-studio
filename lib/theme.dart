@@ -1,5 +1,10 @@
 import "package:flutter/material.dart";
 
-final theme = ThemeData(useMaterial3: true);
+const textTheme = TextTheme(
+  displaySmall: TextStyle(fontFamily: "Ndot"),
+);
+
+final theme = ThemeData(useMaterial3: true, textTheme: textTheme);
+
 final darkTheme =
-    ThemeData(useMaterial3: true, colorScheme: const ColorScheme.dark());
+    theme.copyWith(textTheme: textTheme, colorScheme: const ColorScheme.dark());
