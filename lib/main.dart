@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:glyph_studio/routes/home.dart';
 import 'package:glyph_studio/theme.dart';
@@ -19,13 +20,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: "Glyph Studio",
-      theme: theme,
-      darkTheme: darkTheme,
-      routerConfig: _router,
-      themeMode: ThemeMode.dark, // TODO: allow setting user preference later
-    );
+    return ResponsiveSizer(builder: (context, orientation, screenType) {
+      return MaterialApp.router(
+        title: "Glyph Studio",
+        theme: theme,
+        darkTheme: darkTheme,
+        routerConfig: _router,
+        themeMode: ThemeMode.dark, // TODO: allow setting user preference later
+      );
+    });
   }
 }
 

@@ -55,7 +55,7 @@
                 env.ANDROID_AVD_HOME = "${config.env.DEVENV_ROOT}/.android/avd";
                 env.ANDROID_SDK_ROOT = "${sdk}/share/android-sdk";
                 env.ANDROID_HOME = config.env.ANDROID_SDK_ROOT;
-                env.CHROME_EXECUTABLE = "chromium";
+                env.CHROME_EXECUTABLE = "vivaldi";
                 env.FLUTTER_SDK = "${pkgs.flutter}";
                 env.GRADLE_OPTS =
                   "-Dorg.gradle.project.android.aapt2FromMavenOverride=${sdk}/share/android-sdk/build-tools/34.0.0/aapt2";
@@ -70,7 +70,8 @@
 
                 # https://devenv.sh/processes/
                 # These processes will all run whenever we run `devenv run`
-                processes.emulator.exec = "nixGLMesa emulator -avd phone -skin 720x1280";
+                processes.emulator.exec =
+                  "nixGLMesa emulator -avd phone -skin 720x1280";
                 processes.generate.exec = "dart run build_runner watch || true";
                 # processes.grovero-app.exec = "flutter run lib/main.dart";
 
