@@ -35,7 +35,15 @@ class HomeRoute extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: GlyphView(glyphSet: GlyphSet.phone2),
+                child: FutureBuilder<GlyphSet>(
+                    future: GlyphSet.load(Phone.phone1),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      return GlyphView(glyphSet: snapshot.data!);
+                    }),
               ),
               SizedBox(height: 4.h),
               SizedBox(
