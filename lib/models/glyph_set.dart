@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/services.dart';
 
 import 'package:xml/xml.dart';
 
 import 'package:glyph_studio/gen/assets.gen.dart';
 
-enum Phone { phone1, phone2, phone2a }
+import 'phone.dart';
 
 class GlyphSet {
   String svgString;
@@ -46,6 +44,8 @@ class GlyphSet {
   }
 
   static Future<GlyphSet> load(Phone phone) async {
+    assert(phone != Phone.unknown);
+
     var svg = await rootBundle.loadString(getSvgPath(phone));
 
     return GlyphSet(svg, phone);

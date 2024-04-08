@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:glyph_studio/routes/home.dart';
 import 'package:glyph_studio/theme.dart';
@@ -33,5 +35,9 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  GetIt.I.registerSingleton(NothingGlyphInterface());
+
   runApp(const MyApp());
 }

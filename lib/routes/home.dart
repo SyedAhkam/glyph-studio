@@ -1,14 +1,57 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:glyph_studio/models/glyph_set.dart';
-import 'package:glyph_studio/widgets/glyph_view.dart';
 
+import 'package:dotted_border/dotted_border.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glyph_studio/models/glyph_mapping.dart';
+import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:glyph_studio/gen/assets.gen.dart';
+import 'package:glyph_studio/models/glyph_set.dart';
+import 'package:glyph_studio/models/phone.dart';
+import 'package:glyph_studio/widgets/glyph_view.dart';
 
-class HomeRoute extends StatelessWidget {
+class HomeRoute extends StatefulWidget {
   const HomeRoute({super.key});
+
+  @override
+  State<HomeRoute> createState() => _HomeRouteState();
+}
+
+class _HomeRouteState extends State<HomeRoute> {
+  final _glyphInterface = GetIt.I<NothingGlyphInterface>();
+
+  Phone currentPhone = Phone.unknown;
+
+  _init() async {
+    var phone = await Phone.guessCurrentPhone();
+
+    setState(() {
+      currentPhone = phone;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _glyphInterface.onServiceConnection.listen((connected) {
+      print("connected: $connected");
+    });
+
+    _init();
+  }
+
+  doSomething() async {
+    await _glyphInterface.buildGlyphFrame(GlyphFrameBuilder()
+        .buildChannelB()
+        .buildChannel(Phone2GlyphMap.c1_3.idx)
+        .buildPeriod(2000)
+        .buildCycles(3)
+        .buildInterval(1000)
+        .build());
+
+    await _glyphInterface.animate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +78,22 @@ class HomeRoute extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: FutureBuilder<GlyphSet>(
-                    future: GlyphSet.load(Phone.phone2a),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                child: currentPhone != Phone.unknown
+                    ? FutureBuilder<GlyphSet>(
+                        future: GlyphSet.load(currentPhone),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
 
-                      return GlyphView(glyphSet: snapshot.data!);
-                    }),
+                          return GlyphView(glyphSet: snapshot.data!);
+                        })
+                    : const Center(child: Text("Unsupported Device, sorry!")),
               ),
               SizedBox(height: 4.h),
+              ElevatedButton(onPressed: doSomething, child: const Text("Test")),
               SizedBox(
                 height: 16.h,
                 width: 100.w,
@@ -66,14 +114,16 @@ class HomeRoute extends StatelessWidget {
                                 ..lineTo(size.width, 40);
                             },
                             child: SizedBox(
-                              child: Text("Running on Phone (2)",
+                              child: Text(
+                                  "Running on ${currentPhone.formattedName}",
                                   style: theme.textTheme.headlineMedium!
                                       .copyWith(
                                           color:
                                               Colors.white.withOpacity(0.82))),
                             ),
                           ),
-                          Text("5 Glyph Zones Available",
+                          Text(
+                              "${currentPhone.calculateTotalZones} Glyph Zones Available",
                               style: theme.textTheme.headlineSmall!
                                   .copyWith(color: const Color(0xFFC8102E)))
                         ],

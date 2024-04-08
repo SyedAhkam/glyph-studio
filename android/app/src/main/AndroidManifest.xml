@@ -29,6 +29,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- NOTE: Update the API key for production -->
+        <meta-data android:name="NothingKey" android:value="test" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and
@@ -41,4 +44,7 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+
+    <!-- This asks for permission to do glyph stuff -->
+    <uses-permission android:name="com.nothing.ketchum.permission.ENABLE"/>
 </manifest>
