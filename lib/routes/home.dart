@@ -36,7 +36,7 @@ class HomeRoute extends StatelessWidget {
             children: [
               Expanded(
                 child: FutureBuilder<GlyphSet>(
-                    future: GlyphSet.load(Phone.phone1),
+                    future: GlyphSet.load(Phone.phone2a),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());

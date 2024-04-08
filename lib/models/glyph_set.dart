@@ -12,8 +12,8 @@ class GlyphSet {
   String svgString;
   Phone phone;
 
-  late String viewBoxHeight;
-  late String viewBoxWidth;
+  late double viewBoxHeight;
+  late double viewBoxWidth;
   List<String> pathDefs = [];
 
   GlyphSet(this.svgString, this.phone) {
@@ -22,8 +22,8 @@ class GlyphSet {
     final svgElement = document.getElement('svg')!;
     final paths = document.findAllElements('path');
 
-    viewBoxHeight = svgElement.getAttribute('height')!;
-    viewBoxWidth = svgElement.getAttribute('width')!;
+    viewBoxHeight = double.parse(svgElement.getAttribute('height')!);
+    viewBoxWidth = double.parse(svgElement.getAttribute('width')!);
 
     for (var path in paths) {
       final d = path.getAttribute('d')!;
