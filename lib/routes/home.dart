@@ -1,5 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:glyph_studio/models/glyph_set.dart';
+import 'package:glyph_studio/widgets/glyph_view.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -33,7 +35,7 @@ class HomeRoute extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Assets.images.glyphs.phone2Glyphs.svg(),
+                child: GlyphView(glyphSet: GlyphSet.phone2),
               ),
               SizedBox(height: 4.h),
               SizedBox(
