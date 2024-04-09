@@ -1,5 +1,53 @@
-<svg width="425" height="349" viewBox="0 0 425 349" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M18.5924 268.62C24.524 265.663 31.7289 268.075 34.6851 274.007C47.5301 299.78 56.631 310.473 73.1353 328.17C77.6555 333.017 77.3907 340.61 72.544 345.13C67.6972 349.65 60.1039 349.386 55.5837 344.539C38.1339 325.828 27.4237 313.242 13.2049 284.712C10.2488 278.781 12.6608 271.576 18.5924 268.62Z" fill="#AFAFAF"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M411.415 113.992C418.042 113.94 423.457 119.27 423.509 125.897L424.546 257.503C424.598 264.131 419.268 269.545 412.64 269.597C406.013 269.65 400.598 264.319 400.546 257.692L399.51 126.086C399.458 119.459 404.788 114.044 411.415 113.992Z" fill="#AFAFAF"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M122.421 6.00275C125.734 11.7425 123.767 19.0814 118.027 22.3947C93.4289 36.5941 76.7341 49.5747 62.8484 66.0544C48.8507 82.667 37.1968 103.435 23.4967 134.008C20.7866 140.056 13.6868 142.761 7.6388 140.051C1.59084 137.341 -1.11499 130.241 1.59515 124.193C15.6237 92.8872 28.3595 69.7397 44.495 50.5899C60.7425 31.3072 79.9243 16.6781 106.029 1.60927C111.768 -1.70403 119.107 0.262999 122.421 6.00275Z" fill="#AFAFAF"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="425"
+   height="349"
+   viewBox="0 0 425 349"
+   fill="none"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="Phone-2a-glyphs.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="1.7826221"
+     inkscape:cx="424.93583"
+     inkscape:cy="237.2909"
+     inkscape:window-width="2560"
+     inkscape:window-height="1500"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M18.5924 268.62C24.524 265.663 31.7289 268.075 34.6851 274.007C47.5301 299.78 56.631 310.473 73.1353 328.17C77.6555 333.017 77.3907 340.61 72.544 345.13C67.6972 349.65 60.1039 349.386 55.5837 344.539C38.1339 325.828 27.4237 313.242 13.2049 284.712C10.2488 278.781 12.6608 271.576 18.5924 268.62Z"
+     fill="#AFAFAF"
+     id="a" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M411.415 113.992C418.042 113.94 423.457 119.27 423.509 125.897L424.546 257.503C424.598 264.131 419.268 269.545 412.64 269.597C406.013 269.65 400.598 264.319 400.546 257.692L399.51 126.086C399.458 119.459 404.788 114.044 411.415 113.992Z"
+     fill="#AFAFAF"
+     id="b" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M122.421 6.00275C125.734 11.7425 123.767 19.0814 118.027 22.3947C93.4289 36.5941 76.7341 49.5747 62.8484 66.0544C48.8507 82.667 37.1968 103.435 23.4967 134.008C20.7866 140.056 13.6868 142.761 7.6388 140.051C1.59084 137.341 -1.11499 130.241 1.59515 124.193C15.6237 92.8872 28.3595 69.7397 44.495 50.5899C60.7425 31.3072 79.9243 16.6781 106.029 1.60927C111.768 -1.70403 119.107 0.262999 122.421 6.00275Z"
+     fill="#AFAFAF"
+     id="c" />
 </svg>

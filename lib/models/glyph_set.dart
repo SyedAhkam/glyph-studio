@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:glyph_studio/models/glyph_mapping.dart';
 
 import 'package:xml/xml.dart';
 
@@ -12,7 +13,23 @@ class GlyphSet {
 
   late double viewBoxHeight;
   late double viewBoxWidth;
-  List<String> pathDefs = [];
+  List<(dynamic, String)> pathDefs = [];
+
+  dynamic _transformGlyphIdToGlyph(String id) {
+    if (phone == Phone.phone1) {
+      return Phone1GlyphMap.fromGlyphId(id);
+    }
+
+    if (phone == Phone.phone2) {
+      return Phone2GlyphMap.fromGlyphId(id);
+    }
+
+    if (phone == Phone.phone2a) {
+      return Phone2aGlyphMap.fromGlyphId(id);
+    }
+
+    throw UnimplementedError();
+  }
 
   GlyphSet(this.svgString, this.phone) {
     XmlDocument document = XmlDocument.parse(svgString);
@@ -24,9 +41,12 @@ class GlyphSet {
     viewBoxWidth = double.parse(svgElement.getAttribute('width')!);
 
     for (var path in paths) {
+      final id = path.getAttribute('id')!;
       final d = path.getAttribute('d')!;
 
-      pathDefs.add(d);
+      var glyph = _transformGlyphIdToGlyph(id);
+
+      pathDefs.add((glyph, d));
     }
   }
 

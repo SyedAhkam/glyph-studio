@@ -54,8 +54,8 @@ class GlyphView extends StatelessWidget {
     return Center(
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(
-          children: glyphSet.pathDefs.map((p) {
-            var parsedPath = parseSvgPath(p);
+          children: glyphSet.pathDefs.map((def) {
+            var parsedPath = parseSvgPath(def.$2);
 
             return ClipPath(
                 clipper: Clipper(
@@ -64,7 +64,7 @@ class GlyphView extends StatelessWidget {
                     originalWidth: glyphSet.viewBoxWidth),
                 child: GestureDetector(
                     onTap: () {
-                      print("click");
+                      print("click at ${def.$1}");
                     },
                     child: Container(
                       color: Colors.grey,

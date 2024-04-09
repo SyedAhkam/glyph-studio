@@ -123,7 +123,7 @@ class _HomeRouteState extends State<HomeRoute> {
                             ),
                           ),
                           Text(
-                              "${currentPhone.calculateTotalZones} Glyph Zones Available",
+                              "${currentPhone != Phone.unknown ? currentPhone.calculateTotalZones : '0'} Glyph Zones Available",
                               style: theme.textTheme.headlineSmall!
                                   .copyWith(color: const Color(0xFFC8102E)))
                         ],
