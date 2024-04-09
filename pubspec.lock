@@ -428,10 +428,10 @@ packages:
     dependency: "direct main"
     description:
       name: nothing_glyph_interface
-      sha256: c5e489668287069bec44bb00bcd8eb7d2c88d3153595add2d75262091d5c4db4
+      sha256: d0dd5e3cc6de40bde8ba0fc312145887f572a3ba1b22f575113ceafbf5b7ee4f
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.4"
   package_config:
     dependency: transitive
     description:

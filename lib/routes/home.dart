@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -48,6 +50,10 @@ class _HomeRouteState extends State<HomeRoute> {
         .build());
 
     await _glyphInterface.animate();
+
+    sleep(const Duration(milliseconds: 5000));
+
+    await _glyphInterface.turnOff();
   }
 
   @override
