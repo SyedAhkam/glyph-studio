@@ -46,8 +46,10 @@ class Clipper extends CustomClipper<Path> {
 
 class GlyphView extends StatelessWidget {
   final GlyphSet glyphSet;
+  final Function(dynamic) onGlyphTap;
 
-  GlyphView({super.key, required this.glyphSet});
+  const GlyphView(
+      {super.key, required this.glyphSet, required this.onGlyphTap});
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +65,7 @@ class GlyphView extends StatelessWidget {
                     originalHeight: glyphSet.viewBoxHeight,
                     originalWidth: glyphSet.viewBoxWidth),
                 child: GestureDetector(
-                    onTap: () {
-                      print("click at ${def.$1}");
-                    },
+                    onTap: () => onGlyphTap(def.$1),
                     child: Container(
                       color: Colors.grey,
                     )));

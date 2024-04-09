@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:get_it/get_it.dart';
-import 'package:glyph_studio/models/glyph_mapping.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -41,13 +40,11 @@ class _HomeRouteState extends State<HomeRoute> {
     _init();
   }
 
-  doSomething() async {
+  onGlyphTap(dynamic glyph) async {
     await _glyphInterface.buildGlyphFrame(GlyphFrameBuilder()
-        .buildChannelB()
-        .buildChannel(Phone2GlyphMap.c1_3.idx)
+        .buildChannel(glyph.idx)
         .buildPeriod(2000)
-        .buildCycles(3)
-        .buildInterval(1000)
+        .buildCycles(2)
         .build());
 
     await _glyphInterface.animate();
@@ -88,12 +85,12 @@ class _HomeRouteState extends State<HomeRoute> {
                                 child: CircularProgressIndicator());
                           }
 
-                          return GlyphView(glyphSet: snapshot.data!);
+                          return GlyphView(
+                              glyphSet: snapshot.data!, onGlyphTap: onGlyphTap);
                         })
                     : const Center(child: Text("Unsupported Device, sorry!")),
               ),
               SizedBox(height: 4.h),
-              ElevatedButton(onPressed: doSomething, child: const Text("Test")),
               SizedBox(
                 height: 16.h,
                 width: 100.w,
