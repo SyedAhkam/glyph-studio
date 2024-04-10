@@ -43,7 +43,7 @@ class _HomeRouteState extends State<HomeRoute> {
     _init();
   }
 
-  onGlyphTap(GlyphMap glyph) async {
+  Future<void> onGlyphTap(GlyphMap glyph) async {
     await _glyphInterface.buildGlyphFrame(GlyphFrameBuilder()
         .buildChannel(glyph.idx)
         .buildPeriod(2000)
@@ -52,7 +52,7 @@ class _HomeRouteState extends State<HomeRoute> {
 
     await _glyphInterface.animate();
 
-    sleep(const Duration(milliseconds: 5000));
+    await Future.delayed(const Duration(milliseconds: 4000));
 
     await _glyphInterface.turnOff();
   }

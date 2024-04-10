@@ -46,7 +46,7 @@ class Clipper extends CustomClipper<Path> {
 
 class GlyphView extends StatefulWidget {
   final GlyphSet glyphSet;
-  final Function(GlyphMap) onGlyphTap;
+  final Future<void> Function(GlyphMap) onGlyphTap;
 
   const GlyphView(
       {super.key, required this.glyphSet, required this.onGlyphTap});
@@ -57,6 +57,25 @@ class GlyphView extends StatefulWidget {
 
 class _GlyphViewState extends State<GlyphView> {
   GlyphMap? highlightedGlyph;
+
+  void processTap(GlyphMap glyph) async {
+    print("Tapped on ${glyph}");
+
+    // Set highlightedGlyph
+    setState(() => highlightedGlyph = glyph);
+
+    print("after set glyph");
+
+    // Redirect control to parent widget
+    await widget.onGlyphTap(glyph);
+
+    print("after fn return");
+
+    // When function returns, we reset the highlighted glyph
+    setState(() => highlightedGlyph = null);
+
+    print("after reset glyph");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +91,10 @@ class _GlyphViewState extends State<GlyphView> {
                     originalHeight: widget.glyphSet.viewBoxHeight,
                     originalWidth: widget.glyphSet.viewBoxWidth),
                 child: GestureDetector(
-                    onTap: () => widget.onGlyphTap(def.$1),
+                    onTap: () => processTap(def.$1),
                     child: Container(
-                      color: Colors.grey,
+                      color:
+                          highlightedGlyph == def.$1 ? Colors.red : Colors.grey,
                     )));
           }).toList(),
         );
