@@ -64,17 +64,11 @@ class _GlyphViewState extends State<GlyphView> {
     // Set highlightedGlyph
     setState(() => highlightedGlyph = glyph);
 
-    print("after set glyph");
-
     // Redirect control to parent widget
     await widget.onGlyphTap(glyph);
 
-    print("after fn return");
-
     // When function returns, we reset the highlighted glyph
     setState(() => highlightedGlyph = null);
-
-    print("after reset glyph");
   }
 
   @override
