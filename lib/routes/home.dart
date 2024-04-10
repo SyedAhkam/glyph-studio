@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:get_it/get_it.dart';
+import 'package:glyph_studio/models/glyph_mapping.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -42,7 +43,7 @@ class _HomeRouteState extends State<HomeRoute> {
     _init();
   }
 
-  onGlyphTap(dynamic glyph) async {
+  onGlyphTap(GlyphMap glyph) async {
     await _glyphInterface.buildGlyphFrame(GlyphFrameBuilder()
         .buildChannel(glyph.idx)
         .buildPeriod(2000)

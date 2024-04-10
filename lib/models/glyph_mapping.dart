@@ -1,4 +1,29 @@
-enum Phone1GlyphMap {
+import 'phone.dart';
+
+sealed class GlyphMap {
+  final int idx;
+  final String? group;
+
+  const GlyphMap(this.idx, {this.group});
+
+  static GlyphMap fromGlyphId(Phone phone, String id) {
+    if (phone == Phone.phone1) {
+      return Phone1GlyphMap.fromGlyphId(id);
+    }
+
+    if (phone == Phone.phone2) {
+      return Phone2GlyphMap.fromGlyphId(id);
+    }
+
+    if (phone == Phone.phone2a) {
+      return Phone2aGlyphMap.fromGlyphId(id);
+    }
+
+    throw UnimplementedError();
+  }
+}
+
+enum Phone1GlyphMap implements GlyphMap {
   a1(0),
   b1(1),
   c1(2),
@@ -15,7 +40,9 @@ enum Phone1GlyphMap {
   d1_7(13, group: 'd1'),
   d1_8(14, group: 'd1');
 
+  @override
   final int idx;
+  @override
   final String? group;
 
   const Phone1GlyphMap(this.idx, {this.group});
@@ -42,7 +69,7 @@ enum Phone1GlyphMap {
   }
 }
 
-enum Phone2GlyphMap {
+enum Phone2GlyphMap implements GlyphMap {
   a1(0),
   a2(1),
   b1(2),
@@ -77,7 +104,9 @@ enum Phone2GlyphMap {
   d1_7(31, group: 'd1'),
   d1_8(32, group: 'd1');
 
+  @override
   final int idx;
+  @override
   final String? group;
 
   const Phone2GlyphMap(this.idx, {this.group});
@@ -99,7 +128,7 @@ enum Phone2GlyphMap {
   }
 }
 
-enum Phone2aGlyphMap {
+enum Phone2aGlyphMap implements GlyphMap {
   c1(0, group: 'c'),
   c2(1, group: 'c'),
   c3(2, group: 'c'),
@@ -127,7 +156,9 @@ enum Phone2aGlyphMap {
   b(24),
   a(25);
 
+  @override
   final int idx;
+  @override
   final String? group;
 
   const Phone2aGlyphMap(this.idx, {this.group});

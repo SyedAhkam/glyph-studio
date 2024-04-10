@@ -13,23 +13,8 @@ class GlyphSet {
 
   late double viewBoxHeight;
   late double viewBoxWidth;
-  List<(dynamic, String)> pathDefs = [];
 
-  dynamic _transformGlyphIdToGlyph(String id) {
-    if (phone == Phone.phone1) {
-      return Phone1GlyphMap.fromGlyphId(id);
-    }
-
-    if (phone == Phone.phone2) {
-      return Phone2GlyphMap.fromGlyphId(id);
-    }
-
-    if (phone == Phone.phone2a) {
-      return Phone2aGlyphMap.fromGlyphId(id);
-    }
-
-    throw UnimplementedError();
-  }
+  List<(GlyphMap, String)> pathDefs = [];
 
   GlyphSet(this.svgString, this.phone) {
     XmlDocument document = XmlDocument.parse(svgString);
@@ -44,7 +29,7 @@ class GlyphSet {
       final id = path.getAttribute('id')!;
       final d = path.getAttribute('d')!;
 
-      var glyph = _transformGlyphIdToGlyph(id);
+      final glyph = GlyphMap.fromGlyphId(phone, id);
 
       pathDefs.add((glyph, d));
     }

@@ -26,7 +26,7 @@ enum Phone {
     }
   }
 
-  dynamic get calculateTotalZones {
+  int get calculateTotalZones {
     switch (this) {
       case Phone.phone1:
         return Phone1GlyphMap.values.length;

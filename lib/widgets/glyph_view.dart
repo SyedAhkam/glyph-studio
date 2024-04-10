@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:glyph_studio/gen/assets.gen.dart';
+import 'package:svg_path_parser/svg_path_parser.dart';
 
 import 'package:glyph_studio/models/glyph_set.dart';
-import 'package:svg_path_parser/svg_path_parser.dart';
+import 'package:glyph_studio/models/glyph_mapping.dart';
 
 class Clipper extends CustomClipper<Path> {
   Clipper(
@@ -44,28 +44,35 @@ class Clipper extends CustomClipper<Path> {
   }
 }
 
-class GlyphView extends StatelessWidget {
+class GlyphView extends StatefulWidget {
   final GlyphSet glyphSet;
-  final Function(dynamic) onGlyphTap;
+  final Function(GlyphMap) onGlyphTap;
 
   const GlyphView(
       {super.key, required this.glyphSet, required this.onGlyphTap});
+
+  @override
+  State<GlyphView> createState() => _GlyphViewState();
+}
+
+class _GlyphViewState extends State<GlyphView> {
+  GlyphMap? highlightedGlyph;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(
-          children: glyphSet.pathDefs.map((def) {
+          children: widget.glyphSet.pathDefs.map((def) {
             var parsedPath = parseSvgPath(def.$2);
 
             return ClipPath(
                 clipper: Clipper(
                     path: parsedPath,
-                    originalHeight: glyphSet.viewBoxHeight,
-                    originalWidth: glyphSet.viewBoxWidth),
+                    originalHeight: widget.glyphSet.viewBoxHeight,
+                    originalWidth: widget.glyphSet.viewBoxWidth),
                 child: GestureDetector(
-                    onTap: () => onGlyphTap(def.$1),
+                    onTap: () => widget.onGlyphTap(def.$1),
                     child: Container(
                       color: Colors.grey,
                     )));
