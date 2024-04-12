@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:svg_path_parser/svg_path_parser.dart';
 
 import 'package:glyph_studio/models/glyph_set.dart';
@@ -63,6 +65,9 @@ class _GlyphViewState extends State<GlyphView> {
 
     // Set highlightedGlyph
     setState(() => highlightedGlyph = glyph);
+
+    // Trigger haptics
+    await HapticFeedback.selectionClick();
 
     // Redirect control to parent widget
     await widget.onGlyphTap(glyph);
