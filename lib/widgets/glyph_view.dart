@@ -85,13 +85,15 @@ class _GlyphViewState extends State<GlyphView> {
 
     // Play sound
     await player.resume();
-    await player.stop(); // resets position
 
     // Redirect control to parent widget
     await widget.onGlyphTap(glyph);
 
     // When function returns, we reset the highlighted glyph
     setState(() => highlightedGlyph = null);
+
+    // reset player position
+    await player.stop();
   }
 
   @override
