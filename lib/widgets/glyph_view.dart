@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:glyph_studio/gen/assets.gen.dart';
 
 import 'package:svg_path_parser/svg_path_parser.dart';
 
@@ -58,7 +60,19 @@ class GlyphView extends StatefulWidget {
 }
 
 class _GlyphViewState extends State<GlyphView> {
+  final player = AudioPlayer();
+
   GlyphMap? highlightedGlyph;
+
+  @override
+  void initState() {
+    super.initState();
+
+    player.audioCache = AudioCache(prefix: ''); // remove asset prefix
+    player.setSourceAsset(Assets.sounds.a);
+    player.setPlayerMode(PlayerMode.lowLatency);
+    player.setReleaseMode(ReleaseMode.stop);
+  }
 
   void processTap(GlyphMap glyph) async {
     print("Tapped on ${glyph}");
@@ -68,6 +82,10 @@ class _GlyphViewState extends State<GlyphView> {
 
     // Trigger haptics
     await HapticFeedback.selectionClick();
+
+    // Play sound
+    await player.resume();
+    await player.stop(); // resets position
 
     // Redirect control to parent widget
     await widget.onGlyphTap(glyph);

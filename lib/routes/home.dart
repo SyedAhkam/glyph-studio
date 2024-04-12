@@ -80,14 +80,14 @@ class _HomeRouteState extends State<HomeRoute> {
     }
 
     // Set Common properties
-    builder.buildPeriod(2000);
-    builder.buildCycles(2);
+    builder.buildPeriod(1000);
+    builder.buildCycles(1);
 
     await _glyphInterface.buildGlyphFrame(builder.build());
 
     await _glyphInterface.animate();
 
-    await Future.delayed(const Duration(milliseconds: 4000));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     await _glyphInterface.turnOff();
   }

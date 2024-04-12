@@ -38,11 +38,11 @@ class GlyphSet {
   static getSvgPath(Phone phone) {
     switch (phone) {
       case Phone.phone1:
-        return Assets.images.glyphs.phone1Glyphs.path;
+        return Assets.images.glyphs.phone1Glyphs;
       case Phone.phone2:
-        return Assets.images.glyphs.phone2Glyphs.path;
+        return Assets.images.glyphs.phone2Glyphs;
       case Phone.phone2a:
-        return Assets.images.glyphs.phone2aGlyphs.path;
+        return Assets.images.glyphs.phone2aGlyphs;
       default:
         throw UnimplementedError();
     }
