@@ -1,16 +1,38 @@
-# glyph_studio
+# Nothing™ Glyph Studio
 
-A new Flutter project.
+Your playground for everything Glyphs. A Nothing™ (Community) Project.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Support for Phone (1), Phone (2), and Phone (2a) glyph layouts.
+- Absolute control over Glyphs (long-term goal)
+- Allow recording & playing back Flows.
+- Intuitive, user-friendly Nothing inspired design.
+- Powered by [Nothing Glyph Developer Kit](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit) and [this flutter wrapper](https://github.com/JayKay135/flutter-nothing-glyph-interface).
 
-A few resources to get you started if this is your first Flutter project:
+## Build Instructions
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Setup the Android and the Flutter SDK. If you're on Nix, there's a flake available that will set up the environment for you.
+2. Run `flutter run` or `flutter build apk` if you prefer building an APK directly.
+3. The app will launch.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Since we don't have production API keys from Nothing yet -- in order to run it on our devices, we have to enable [Glyph Interface debugging mode](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit?tab=readme-ov-file#setup-instructions).
+
+``` sh
+adb shell settings put global nt_glyph_interface_debug_enable 1
+```
+
+Note: Glyph debug mode expires after every 48 hours. 
+
+## Develop notes
+
+Trigger code generation for assets using:
+
+``` sh
+dart run build_runner build
+```
+
+
+## Legal
+
+'Nothing', Nothing Phones, Nothing Fonts, Nothing Glyphs are intellectual properties of Nothing Technology Limited. I have no right over them.
