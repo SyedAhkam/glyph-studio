@@ -2,9 +2,12 @@ import "package:flutter/material.dart";
 import "package:glyph_studio/gen/fonts.gen.dart";
 
 const textTheme = TextTheme(
-    displaySmall: TextStyle(fontFamily: FontFamily.ndot),
-    headlineMedium: TextStyle(fontFamily: FontFamily.ndot),
-    headlineSmall: TextStyle(fontFamily: FontFamily.ndot));
+  displaySmall: TextStyle(fontFamily: FontFamily.ndot),
+  headlineMedium: TextStyle(fontFamily: FontFamily.ndot),
+  headlineSmall: TextStyle(fontFamily: FontFamily.ndot),
+  bodyLarge: TextStyle(fontFamily: FontFamily.ndot),
+  titleMedium: TextStyle(fontFamily: FontFamily.ndot),
+);
 
 final theme = ThemeData(useMaterial3: true, textTheme: textTheme);
 

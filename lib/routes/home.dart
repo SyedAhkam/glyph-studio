@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -11,6 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:glyph_studio/models/glyph_set.dart';
 import 'package:glyph_studio/models/phone.dart';
 import 'package:glyph_studio/widgets/glyph_view.dart';
+import 'package:glyph_studio/widgets/drawer_view.dart';
 
 class HomeRoute extends StatefulWidget {
   const HomeRoute({super.key});
@@ -23,6 +22,8 @@ class _HomeRouteState extends State<HomeRoute> {
   final _glyphInterface = GetIt.I<NothingGlyphInterface>();
 
   Phone currentPhone = Phone.unknown;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _init() async {
     var phone = await Phone.guessCurrentPhone();
@@ -62,6 +63,7 @@ class _HomeRouteState extends State<HomeRoute> {
     var theme = Theme.of(context);
 
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
             centerTitle: true,
             title: Text("GLYPH (STUDIO)", style: theme.textTheme.displaySmall),
@@ -69,11 +71,18 @@ class _HomeRouteState extends State<HomeRoute> {
             actions: [
               IconButton(
                   icon: Text("~", style: theme.textTheme.displaySmall),
-                  onPressed: () {}),
+                  onPressed: () {
+                    // Open end drawer
+                    _scaffoldKey.currentState!.openEndDrawer();
+                  }),
               const SizedBox(width: 8)
             ],
             shape: Border(
                 bottom: BorderSide(color: Colors.white.withOpacity(0.33)))),
+        endDrawer: Drawer(
+            //surfaceTintColor: theme.colorScheme.surface.withOpacity(0),
+            backgroundColor: theme.colorScheme.surface.withOpacity(0.95),
+            child: const DrawerView()),
         body: Container(
           width: 100.w,
           padding: const EdgeInsets.all(32),
