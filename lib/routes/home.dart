@@ -37,19 +37,53 @@ class _HomeRouteState extends State<HomeRoute> {
   void initState() {
     super.initState();
 
-    _glyphInterface.onServiceConnection.listen((connected) {
-      print("connected: $connected");
-    });
+    // this doesn't seem to work
+    // _glyphInterface.onServiceConnection.listen((connected) {
+    //   print("connected: $connected");
+    // });
 
     _init();
   }
 
   Future<void> onGlyphTap(GlyphMap glyph) async {
-    await _glyphInterface.buildGlyphFrame(GlyphFrameBuilder()
-        .buildChannel(glyph.idx)
-        .buildPeriod(2000)
-        .buildCycles(2)
-        .build());
+    var builder = GlyphFrameBuilder();
+
+    // Choose glyph channel
+    if (glyph.group != null) {
+      switch (glyph.group) {
+        case "d1":
+          builder.buildChannelD();
+        case "c1": // phone 2 exclusive group
+          // had to pull in this hack, to light up everything under c1
+          // since buildChannelC() lights up the whole ring
+          builder.buildChannel(Phone2GlyphMap.c1_1.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_2.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_3.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_4.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_5.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_6.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_7.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_8.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_9.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_10.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_11.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_12.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_13.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_14.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_15.idx);
+          builder.buildChannel(Phone2GlyphMap.c1_16.idx);
+        case "c":
+          builder.buildChannelC();
+      }
+    } else {
+      builder.buildChannel(glyph.idx);
+    }
+
+    // Set Common properties
+    builder.buildPeriod(2000);
+    builder.buildCycles(2);
+
+    await _glyphInterface.buildGlyphFrame(builder.build());
 
     await _glyphInterface.animate();
 
