@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -22,6 +24,7 @@ class _HomeRouteState extends State<HomeRoute> {
   final _glyphInterface = GetIt.I<NothingGlyphInterface>();
 
   Phone currentPhone = Phone.unknown;
+  Timer? _longPressAnimationTimer;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -92,6 +95,41 @@ class _HomeRouteState extends State<HomeRoute> {
     await _glyphInterface.turnOff();
   }
 
+  Future<void> onGlyphLongPressStart(GlyphMap glyph) async {
+    var builder = GlyphFrameBuilder();
+
+    switch (glyph.group!) {
+      case "d1":
+        builder.buildChannelD();
+      case "c1":
+        builder.buildChannelC();
+      case "c":
+        builder.buildChannelC();
+    }
+
+    await _glyphInterface.buildGlyphFrame(builder.build());
+
+    var progress = 0;
+    var step = (_) async {
+      if (progress == 100) return; // stop increments when already 100
+
+      // Increment by 1 each increment
+      await _glyphInterface.displayProgress(progress);
+      progress += 1;
+    };
+
+    _longPressAnimationTimer =
+        Timer.periodic(const Duration(milliseconds: 300), step);
+  }
+
+  Future<void> onGlyphLongPressEnd(GlyphMap glyph) async {
+    // Cancel the existing task
+    _longPressAnimationTimer?.cancel();
+
+    // Turn off
+    _glyphInterface.turnOff();
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -136,7 +174,11 @@ class _HomeRouteState extends State<HomeRoute> {
                           }
 
                           return GlyphView(
-                              glyphSet: snapshot.data!, onGlyphTap: onGlyphTap);
+                            glyphSet: snapshot.data!,
+                            onGlyphTap: onGlyphTap,
+                            onGlyphLongPressStart: onGlyphLongPressStart,
+                            onGlyphLongPressEnd: onGlyphLongPressEnd,
+                          );
                         })
                     : const Center(child: Text("Unsupported Device, sorry!")),
               ),

@@ -51,9 +51,15 @@ class Clipper extends CustomClipper<Path> {
 class GlyphView extends StatefulWidget {
   final GlyphSet glyphSet;
   final Future<void> Function(GlyphMap) onGlyphTap;
+  final Future<void> Function(GlyphMap)? onGlyphLongPressStart;
+  final Future<void> Function(GlyphMap)? onGlyphLongPressEnd;
 
   const GlyphView(
-      {super.key, required this.glyphSet, required this.onGlyphTap});
+      {super.key,
+      required this.glyphSet,
+      required this.onGlyphTap,
+      this.onGlyphLongPressStart,
+      this.onGlyphLongPressEnd});
 
   @override
   State<GlyphView> createState() => _GlyphViewState();
@@ -96,6 +102,36 @@ class _GlyphViewState extends State<GlyphView> {
     await player.stop();
   }
 
+  void processLongPressStart(GlyphMap glyph) async {
+    print("Holding ${glyph}");
+
+    // We are only concerned with groups here
+    if (glyph.group == null) return;
+
+    // Set highlightedGlyph
+    setState(() => highlightedGlyph = glyph);
+
+    // Trigger haptics
+    await HapticFeedback.heavyImpact();
+
+    // Redirect control to parent widget
+    await widget.onGlyphLongPressStart?.call(glyph);
+  }
+
+  void processLongPressEnd(GlyphMap glyph) async {
+    // We are only concerned with groups here
+    if (glyph.group == null) return;
+
+    // Trigger haptics
+    await HapticFeedback.mediumImpact();
+
+    // Redirect control to parent widget
+    await widget.onGlyphLongPressEnd?.call(glyph);
+
+    // When function returns, we reset the highlighted glyph
+    setState(() => highlightedGlyph = null);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -113,6 +149,8 @@ class _GlyphViewState extends State<GlyphView> {
                     originalWidth: widget.glyphSet.viewBoxWidth),
                 child: GestureDetector(
                     onTap: () => processTap(def.$1),
+                    onLongPressStart: (_) => processLongPressStart(def.$1),
+                    onLongPressEnd: (_) => processLongPressEnd(def.$1),
                     child: Container(
                       color: highlightedGlyph == def.$1
                           ? theme.colorScheme.secondary
