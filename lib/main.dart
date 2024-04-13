@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:glyph_studio/routes/home.dart';
+import 'package:glyph_studio/routes/oss.dart';
 import 'package:glyph_studio/theme.dart';
 
 final _router = GoRouter(
@@ -13,6 +14,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const HomeRoute(),
+    ),
+    GoRoute(
+      path: '/oss',
+      builder: (context, state) => const OSSRoute(),
     ),
   ],
 );

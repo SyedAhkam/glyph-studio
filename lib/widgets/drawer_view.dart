@@ -77,7 +77,7 @@ class DrawerView extends StatelessWidget {
               ]),
               listSection(null, [
                 listTile("Open Source Licenses",
-                    onTap: () => context.goNamed("/oss"))
+                    onTap: () => context.push("/oss"))
               ]),
             ]),
           ),
