@@ -15,7 +15,7 @@ final darkTheme = ThemeData(
     useMaterial3: true,
     textTheme: textTheme,
     colorScheme: const ColorScheme.dark(
-      background: Colors.black,
-      surface: Color(0xD51B1D1F), // greyish
-    ),
+        background: Colors.black,
+        surface: Color(0xD51B1D1F), // greyish
+        secondary: Color(0xFFC8102E)),
     brightness: Brightness.dark);

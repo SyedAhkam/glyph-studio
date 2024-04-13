@@ -98,6 +98,8 @@ class _GlyphViewState extends State<GlyphView> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return Center(
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(
@@ -112,8 +114,9 @@ class _GlyphViewState extends State<GlyphView> {
                 child: GestureDetector(
                     onTap: () => processTap(def.$1),
                     child: Container(
-                      color:
-                          highlightedGlyph == def.$1 ? Colors.red : Colors.grey,
+                      color: highlightedGlyph == def.$1
+                          ? theme.colorScheme.secondary
+                          : Colors.grey,
                     )));
           }).toList(),
         );
