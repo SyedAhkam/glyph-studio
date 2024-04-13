@@ -40,3 +40,5 @@ dart run build_runner build
 ## Legal
 
 'Nothing', Nothing Phones, Nothing Fonts, Nothing Glyphs are intellectual properties of Nothing™ Technology Private Limited. I have no right over them.
+
+This codebase is MIT licensed.
