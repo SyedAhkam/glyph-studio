@@ -40,8 +40,9 @@ class DrawerView extends StatelessWidget {
         onTap:
             onTap ?? () {}, // without an onTap, the ripple animations dont show
         title: Text(title,
-            style: theme.textTheme.titleLarge!
-                .copyWith(fontWeight: FontWeight.w200)),
+            style: theme.textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.w200,
+                color: Colors.white.withOpacity(0.64))),
         trailing: Icon(icon ?? Icons.arrow_right),
       );
     }
