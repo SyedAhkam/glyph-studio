@@ -2,6 +2,12 @@
 
 Your playground for everything Glyphs. A Nothing™ (Community) Project.
 
++------------------------------------+------------------------------------+-------------------------------------+
+| Phone (1)                          | Phone (2)                          | Phone (2a)                          |
++------------------------------------+------------------------------------+-------------------------------------+
+| ![](assets/showcase/1-glyphs.jpeg) | ![](assets/showcase/2-glyphs.jpeg) |  ![](assets/showcase/2a-glyphs.jpeg) |
++------------------------------------+------------------------------------+-------------------------------------+
+
 ## Features
 
 - Support for Phone (1), Phone (2), and Phone (2a) glyph layouts.
