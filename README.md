@@ -8,7 +8,7 @@ Your playground for everything Glyphs. A Nothing™ (Community) Project.
 
 ## Sneak Peek
 
-![](assets/showcase/demo.mp4)
+<video src="assets/showcase/demo.mp4" />
 
 ## Features
 
