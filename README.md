@@ -6,6 +6,10 @@ Your playground for everything Glyphs. A Nothing™ (Community) Project.
 |------------------------------------|------------------------------------|-------------------------------------|
 | ![](assets/showcase/1-home.jpeg)   | ![](assets/showcase/2-home.jpeg)   | ![](assets/showcase/2a-home.jpeg)   |
 
+## Sneak Peek
+
+![](assets/showcase/demo.mp4)
+
 ## Features
 
 - Support for Phone (1), Phone (2), and Phone (2a) glyph layouts.
