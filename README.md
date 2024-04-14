@@ -8,7 +8,7 @@ Your playground for everything Glyphs. A Nothing™ (Community) Project.
 
 ## Sneak Peek
 
-<video src="https://github.com/SyedAhkam/glyph-studio/raw/master/assets/showcase/demo.mp4"></video>
+https://github.com/SyedAhkam/glyph-studio/assets/52673095/86f1463a-8592-4ce5-94a4-e63d91ff414b
 
 ## Features
 
