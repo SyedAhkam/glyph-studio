@@ -119,6 +119,7 @@ class HomeRoute extends ConsumerWidget {
           actions: [
             IconButton(
                 icon: Text("~", style: theme.textTheme.displaySmall),
+                tooltip: "Drawer",
                 onPressed: () {
                   // Open end drawer
                   _scaffoldKey.currentState!.openEndDrawer();
