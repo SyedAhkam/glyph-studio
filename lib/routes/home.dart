@@ -3,50 +3,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:glyph_studio/models/glyph_mapping.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:glyph_studio/models/glyph_set.dart';
+import 'package:glyph_studio/models/glyph_mapping.dart';
 import 'package:glyph_studio/models/phone.dart';
 import 'package:glyph_studio/widgets/glyph_view.dart';
 import 'package:glyph_studio/widgets/drawer_view.dart';
+import 'package:glyph_studio/widgets/appbar.dart';
+import 'package:glyph_studio/providers.dart';
 
-class HomeRoute extends StatefulWidget {
-  const HomeRoute({super.key});
+class HomeRoute extends ConsumerWidget {
+  HomeRoute({super.key});
 
-  @override
-  State<HomeRoute> createState() => _HomeRouteState();
-}
-
-class _HomeRouteState extends State<HomeRoute> {
   final _glyphInterface = GetIt.I<NothingGlyphInterface>();
 
-  Phone currentPhone = Phone.unknown;
   Timer? _longPressAnimationTimer;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  _init() async {
-    var phone = await Phone.guessCurrentPhone();
-
-    setState(() {
-      currentPhone = phone;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // this doesn't seem to work
-    // _glyphInterface.onServiceConnection.listen((connected) {
-    //   print("connected: $connected");
-    // });
-
-    _init();
-  }
 
   Future<void> onGlyphTap(GlyphMap glyph) async {
     var builder = GlyphFrameBuilder();
@@ -131,28 +107,26 @@ class _HomeRouteState extends State<HomeRoute> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
+
+    var currentPhone = ref.watch(currentPhoneProvider);
 
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-            centerTitle: true,
-            title: Text("GLYPH (STUDIO)", style: theme.textTheme.displaySmall),
-            backgroundColor: theme.colorScheme.background,
-            actions: [
-              IconButton(
-                  icon: Text("~", style: theme.textTheme.displaySmall),
-                  onPressed: () {
-                    // Open end drawer
-                    _scaffoldKey.currentState!.openEndDrawer();
-                  }),
-              const SizedBox(width: 8)
-            ],
-            shape: Border(
-                bottom: BorderSide(color: Colors.white.withOpacity(0.33)))),
+        appBar: AppbarWrapper(
+          title: "GLYPH (STUDIO)",
+          actions: [
+            IconButton(
+                icon: Text("~", style: theme.textTheme.displaySmall),
+                onPressed: () {
+                  // Open end drawer
+                  _scaffoldKey.currentState!.openEndDrawer();
+                }),
+            const SizedBox(width: 8)
+          ],
+        ),
         endDrawer: Drawer(
-            //surfaceTintColor: theme.colorScheme.surface.withOpacity(0),
             backgroundColor: theme.colorScheme.surface.withOpacity(0.95),
             child: const DrawerView()),
         body: Container(
@@ -163,25 +137,24 @@ class _HomeRouteState extends State<HomeRoute> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: currentPhone != Phone.unknown
-                    ? FutureBuilder<GlyphSet>(
-                        future: GlyphSet.load(currentPhone),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-
-                          return GlyphView(
-                            glyphSet: snapshot.data!,
-                            onGlyphTap: onGlyphTap,
-                            onGlyphLongPressStart: onGlyphLongPressStart,
-                            onGlyphLongPressEnd: onGlyphLongPressEnd,
-                          );
-                        })
-                    : const Center(child: Text("Unsupported Device, sorry!")),
-              ),
+                  child: currentPhone.isLoading
+                      ? const CircularProgressIndicator()
+                      : switch (currentPhone.value!) {
+                          Phone.unknown => const Center(
+                              child: Text("Unsupported Device, sorry!")),
+                          _ => switch (ref.watch(glyphsetProvider)) {
+                              AsyncData(:final value) => GlyphView(
+                                  glyphSet: value,
+                                  onGlyphTap: onGlyphTap,
+                                  onGlyphLongPressStart: onGlyphLongPressStart,
+                                  onGlyphLongPressEnd: onGlyphLongPressEnd,
+                                ),
+                              AsyncError() => const Center(
+                                  child: Text(
+                                      "Something went wrong while loading the glyph set")),
+                              _ => const CircularProgressIndicator()
+                            }
+                        }),
               SizedBox(height: 4.h),
               SizedBox(
                 height: 16.h,
@@ -204,7 +177,7 @@ class _HomeRouteState extends State<HomeRoute> {
                             },
                             child: SizedBox(
                               child: Text(
-                                  "Running on ${currentPhone.formattedName}",
+                                  "Running on ${currentPhone.value?.formattedName}",
                                   style: theme.textTheme.headlineMedium!
                                       .copyWith(
                                           color:
@@ -212,7 +185,7 @@ class _HomeRouteState extends State<HomeRoute> {
                             ),
                           ),
                           Text(
-                              "${currentPhone != Phone.unknown ? currentPhone.calculateTotalZones : '0'} Glyph Zones Available",
+                              "${currentPhone.value != Phone.unknown ? currentPhone.value?.calculateTotalZones : '0'} Glyph Zones Available",
                               style: theme.textTheme.headlineSmall!
                                   .copyWith(color: theme.colorScheme.secondary))
                         ],

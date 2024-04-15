@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:glyph_studio/routes/home.dart';
 import 'package:glyph_studio/routes/oss.dart';
@@ -13,7 +14,7 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomeRoute(),
+      builder: (context, state) => HomeRoute(),
     ),
     GoRoute(
       path: '/oss',
@@ -44,5 +45,5 @@ void main() {
 
   GetIt.I.registerSingleton(NothingGlyphInterface());
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
