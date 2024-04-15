@@ -64,13 +64,12 @@ class DrawerView extends StatelessWidget {
               listSection(
                   "Flows",
                   [
-                    listTile("Your Flows",
-                        onTap: () => context.goNamed("/flows")),
+                    listTile("Your Flows", onTap: () => context.push("/flows")),
                     listTile("Community Flows",
-                        onTap: () => context.goNamed("/community")),
+                        onTap: () => context.push("/community")),
                     listTile("Create New",
                         icon: Icons.add,
-                        onTap: () => context.goNamed("/flows/create"))
+                        onTap: () => context.push("/flows/create"))
                   ],
                   borderTop: false),
               listSection(null, [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glyph_studio/routes/flows/flow_create.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
@@ -15,6 +16,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => HomeRoute(),
+    ),
+    GoRoute(
+      path: '/flows/create',
+      builder: (context, state) => const FlowCreateRoute(),
     ),
     GoRoute(
       path: '/oss',
