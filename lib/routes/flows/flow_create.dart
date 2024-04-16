@@ -1,63 +1,29 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:glyph_studio/models/flow.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:glyph_studio/widgets/appbar.dart';
+import 'package:glyph_studio/widgets/glyph_view.dart';
 import 'package:glyph_studio/models/glyph_mapping.dart';
 import 'package:glyph_studio/models/phone.dart';
+import 'package:glyph_studio/models/flow.dart';
 import 'package:glyph_studio/state/providers.dart';
-import 'package:glyph_studio/widgets/glyph_view.dart';
-
-class ArrowPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Path path = Path();
-    final Paint paint = Paint();
-
-    paint.color = const Color(0xffffffff);
-    path.moveTo(size.width * 0.01, size.height * 0.5);
-    path.lineTo(size.width * 0.19, size.height * 0.88);
-    path.lineTo(size.width * 0.37, size.height * 0.5);
-    path.lineTo(size.width * 0.19, size.height * 0.12);
-    path.lineTo(size.width * 0.01, size.height * 0.5);
-    path.lineTo(size.width * 0.01, size.height * 0.5);
-    path.moveTo(size.width * 0.98, size.height * 0.55);
-    path.cubicTo(size.width, size.height * 0.52, size.width, size.height * 0.48,
-        size.width * 0.98, size.height * 0.45);
-    path.lineTo(size.width * 0.78, size.height * 0.03);
-    path.cubicTo(size.width * 0.77, size.height * -0.01, size.width * 0.74,
-        size.height * 0.01, size.width * 0.73, size.height * 0.06);
-    path.cubicTo(size.width * 0.73, size.height * 0.08, size.width * 0.73,
-        size.height * 0.11, size.width * 0.74, size.height * 0.12);
-    path.lineTo(size.width * 0.92, size.height * 0.5);
-    path.lineTo(size.width * 0.74, size.height * 0.88);
-    path.cubicTo(size.width * 0.72, size.height * 0.91, size.width * 0.73,
-        size.height * 0.98, size.width * 0.75, size.height * 0.99);
-    path.cubicTo(size.width * 0.76, size.height, size.width * 0.78,
-        size.height * 0.99, size.width * 0.78, size.height * 0.97);
-    path.lineTo(size.width * 0.98, size.height * 0.55);
-    path.lineTo(size.width * 0.98, size.height * 0.55);
-    path.moveTo(size.width * 0.19, size.height * 0.57);
-    path.lineTo(size.width * 0.96, size.height * 0.57);
-    path.lineTo(size.width * 0.96, size.height * 0.43);
-    path.lineTo(size.width * 0.19, size.height * 0.43);
-    path.lineTo(size.width * 0.19, size.height * 0.57);
-    path.lineTo(size.width * 0.19, size.height * 0.57);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}
+import 'package:glyph_studio/state/notifiers.dart';
+import 'package:glyph_studio/custom_painters.dart';
 
 class FlowCreateRoute extends ConsumerWidget {
   const FlowCreateRoute({super.key});
 
-  Future<void> onGlyphTap(GlyphMap glyph) async {}
+  Future<void> onGlyphTapDown(TapDownDetails details, GlyphMap glyph,
+      FlowActionsNotifier flowActionsNotifier, bool isRecording) async {
+    if (!isRecording) return; // dont do anything if not recording
 
-  void onPressRecord() {}
+    var coords = details.localPosition;
+
+    flowActionsNotifier.createAction(glyph, coords);
+  }
 
   Widget _controlButton(String tooltip, IconData icon, VoidCallback onClick,
       {Color? backgroundColor}) {
@@ -87,8 +53,26 @@ class FlowCreateRoute extends ConsumerWidget {
       child: Text(
           action.glyph
               .toString()
-              .split(".")[1], // splits Phone1GlyphMap.a1 into a1
+              .split(".")[1]
+              .toUpperCase(), // splits Phone1GlyphMap.a1 into a1
           style: textStyle),
+    );
+  }
+
+  Widget _actionPointer(int seqId, Color bgColor) {
+    return DottedBorder(
+      color: Colors.white.withOpacity(0.64),
+      padding: EdgeInsets.zero,
+      borderType: BorderType.Circle,
+      strokeWidth: 2,
+      child: Container(
+          height: 36,
+          width: 36,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: const BorderRadius.all(Radius.circular(32))),
+          child: Text(seqId.toString())),
     );
   }
 
@@ -100,6 +84,8 @@ class FlowCreateRoute extends ConsumerWidget {
     var isRecording = ref.watch(isRecordingProvider);
     var flowActions = ref.watch(flowActionsProvider);
 
+    var flowActionsNotifier = ref.watch(flowActionsProvider.notifier);
+
     List<Widget> flowActionWidgets = flowActions.isEmpty
         ? []
         : List.generate(flowActions.length * 2 - 1, (idx) {
@@ -110,7 +96,7 @@ class FlowCreateRoute extends ConsumerWidget {
             }
 
             return CustomPaint(
-                painter: ArrowPainter(), size: const Size(64, 30));
+                painter: DiamondArrowPainter(), size: const Size(64, 30));
           });
 
     return Scaffold(
@@ -118,18 +104,16 @@ class FlowCreateRoute extends ConsumerWidget {
           IconButton(
               icon: const Icon(Icons.help_outline),
               tooltip: "Help",
-              onPressed: () {
-                ref
-                    .read(flowActionsProvider.notifier)
-                    .addAction(const FlowAction(3, Phone2GlyphMap.c1_10));
-              })
+              onPressed: () {})
         ]),
         body: Padding(
           padding: const EdgeInsets.only(top: 32),
           child: Column(
             children: [
               Expanded(
-                  child: currentPhone.isLoading
+                  child: Stack(
+                children: [
+                  currentPhone.isLoading
                       ? const CircularProgressIndicator()
                       : switch (currentPhone.value!) {
                           Phone.unknown => const Center(
@@ -137,14 +121,25 @@ class FlowCreateRoute extends ConsumerWidget {
                           _ => switch (ref.watch(glyphsetProvider)) {
                               AsyncData(:final value) => GlyphView(
                                   glyphSet: value,
-                                  onGlyphTap: onGlyphTap,
+                                  onGlyphTapDown: (d, g) => onGlyphTapDown(
+                                      d, g, flowActionsNotifier, isRecording),
                                 ),
                               AsyncError() => const Center(
                                   child: Text(
                                       "Something went wrong while loading the glyph set")),
                               _ => const CircularProgressIndicator()
                             }
-                        }),
+                        },
+                  ...flowActions.map((a) {
+                    return Positioned(
+                      top: a.tapLocation.dy,
+                      left: a.tapLocation.dx,
+                      child:
+                          _actionPointer(a.seqId, theme.colorScheme.secondary),
+                    );
+                  }),
+                ],
+              )),
               SizedBox(height: 4.h),
               SizedBox(
                 height: 28.h,

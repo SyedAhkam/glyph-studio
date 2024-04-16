@@ -50,14 +50,16 @@ class Clipper extends CustomClipper<Path> {
 
 class GlyphView extends StatefulWidget {
   final GlyphSet glyphSet;
-  final Future<void> Function(GlyphMap) onGlyphTap;
+  final Future<void> Function(GlyphMap)? onGlyphTap;
+  final Future<void> Function(TapDownDetails, GlyphMap)? onGlyphTapDown;
   final Future<void> Function(GlyphMap)? onGlyphLongPressStart;
   final Future<void> Function(GlyphMap)? onGlyphLongPressEnd;
 
   const GlyphView(
       {super.key,
       required this.glyphSet,
-      required this.onGlyphTap,
+      this.onGlyphTap,
+      this.onGlyphTapDown,
       this.onGlyphLongPressStart,
       this.onGlyphLongPressEnd});
 
@@ -81,8 +83,6 @@ class _GlyphViewState extends State<GlyphView> {
   }
 
   void processTap(GlyphMap glyph) async {
-    print("Tapped on ${glyph}");
-
     // Set highlightedGlyph
     setState(() => highlightedGlyph = glyph);
 
@@ -93,7 +93,27 @@ class _GlyphViewState extends State<GlyphView> {
     await player.resume();
 
     // Redirect control to parent widget
-    await widget.onGlyphTap(glyph);
+    await widget.onGlyphTap?.call(glyph);
+
+    // When function returns, we reset the highlighted glyph
+    setState(() => highlightedGlyph = null);
+
+    // reset player position
+    await player.stop();
+  }
+
+  void processTapDown(TapDownDetails details, GlyphMap glyph) async {
+    // Set highlightedGlyph
+    setState(() => highlightedGlyph = glyph);
+
+    // Trigger haptics
+    await HapticFeedback.selectionClick();
+
+    // Play sound
+    await player.resume();
+
+    // Redirect control to parent widget
+    await widget.onGlyphTapDown?.call(details, glyph);
 
     // When function returns, we reset the highlighted glyph
     setState(() => highlightedGlyph = null);
@@ -148,7 +168,11 @@ class _GlyphViewState extends State<GlyphView> {
                     originalHeight: widget.glyphSet.viewBoxHeight,
                     originalWidth: widget.glyphSet.viewBoxWidth),
                 child: GestureDetector(
-                    onTap: () => processTap(def.$1),
+                    onTap: () =>
+                        widget.onGlyphTap != null ? processTap(def.$1) : null,
+                    onTapDown: (details) => widget.onGlyphTapDown != null
+                        ? processTapDown(details, def.$1)
+                        : null,
                     onLongPressStart: (_) => processLongPressStart(def.$1),
                     onLongPressEnd: (_) => processLongPressEnd(def.$1),
                     child: Container(
