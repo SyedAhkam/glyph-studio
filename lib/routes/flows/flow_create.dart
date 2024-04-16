@@ -12,7 +12,11 @@ import 'package:glyph_studio/widgets/glyph_view.dart';
 class FlowCreateRoute extends ConsumerWidget {
   const FlowCreateRoute({super.key});
 
+  final bool isRecording = false;
+
   Future<void> onGlyphTap(GlyphMap glyph) async {}
+
+  void onPressRecord() {}
 
   Widget _controlButton(String tooltip, IconData icon, VoidCallback onClick,
       {Color? backgroundColor}) {
@@ -72,34 +76,56 @@ class FlowCreateRoute extends ConsumerWidget {
                   shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
-                  child: Column(children: [
-                    SizedBox(
-                      height: 10.h,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _controlButton(
-                                  "Record", Icons.fiber_manual_record, () {},
-                                  backgroundColor: theme.colorScheme.secondary),
-                              SizedBox(width: 2.w),
-                              _controlButton("Play", Icons.play_circle, () {}),
-                              SizedBox(width: 2.w),
-                              _controlButton("Save", Icons.save, () {}),
-                            ],
-                          ),
-                          Expanded(
-                            child: Container(),
-                          )
-                        ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: 2,
+                                    color: Colors.white.withOpacity(0.16)))),
+                        height: 10.h,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: isRecording
+                                  ? Center(
+                                      child: Text("Recording..",
+                                          style: theme.textTheme.bodyLarge))
+                                  : Container(),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _controlButton("Record",
+                                    Icons.fiber_manual_record, onPressRecord,
+                                    backgroundColor:
+                                        theme.colorScheme.secondary),
+                                SizedBox(width: 2.w),
+                                _controlButton(
+                                    "Play", Icons.play_circle, () {}),
+                                SizedBox(width: 2.w),
+                                _controlButton("Save", Icons.save, () {}),
+                              ],
+                            ),
+                            Expanded(
+                              child: Container(),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(child: Container(color: Colors.red))
-                  ]),
+                      SizedBox(height: 2.h),
+                      Expanded(
+                          child: isRecording
+                              ? Container()
+                              : Center(
+                                  child: Text(
+                                      "Actions Graph will show here once you start recording",
+                                      textAlign: TextAlign.center,
+                                      style: theme.textTheme.bodyLarge)))
+                    ]),
+                  ),
                 ),
               ),
             ],
