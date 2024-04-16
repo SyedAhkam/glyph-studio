@@ -19,7 +19,7 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/flows/create',
-      builder: (context, state) => const FlowCreateRoute(),
+      builder: (context, state) => FlowCreateRoute(),
     ),
     GoRoute(
       path: '/oss',

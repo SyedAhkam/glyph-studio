@@ -1,7 +1,9 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
+import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:glyph_studio/widgets/appbar.dart';
@@ -14,7 +16,30 @@ import 'package:glyph_studio/state/notifiers.dart';
 import 'package:glyph_studio/custom_painters.dart';
 
 class FlowCreateRoute extends ConsumerWidget {
-  const FlowCreateRoute({super.key});
+  FlowCreateRoute({super.key});
+
+  final _glyphInterface = GetIt.I<NothingGlyphInterface>();
+
+  void playFlowWithActions(
+      List<FlowAction> actions, StateNotifier<bool> isPlayingNotifier) async {
+    isPlayingNotifier.state = true;
+
+    for (var action in actions) {
+      final builder = GlyphFrameBuilder();
+
+      builder.buildChannel(action.glyph.idx);
+      builder.buildPeriod(action.duration.inMilliseconds);
+
+      await _glyphInterface.buildGlyphFrame(builder.build());
+
+      await _glyphInterface.animate();
+
+      await Future.delayed(action.duration);
+    }
+
+    await _glyphInterface.turnOff();
+    isPlayingNotifier.state = false;
+  }
 
   Future<void> onGlyphTapDown(TapDownDetails details, GlyphMap glyph,
       FlowActionsNotifier flowActionsNotifier, bool isRecording) async {
@@ -82,6 +107,7 @@ class FlowCreateRoute extends ConsumerWidget {
 
     var currentPhone = ref.watch(currentPhoneProvider);
     var isRecording = ref.watch(isRecordingProvider);
+    var isPlaying = ref.watch(isPlayingProvider);
     var flowActions = ref.watch(flowActionsProvider);
 
     var flowActionsNotifier = ref.watch(flowActionsProvider.notifier);
@@ -181,7 +207,13 @@ class FlowCreateRoute extends ConsumerWidget {
                                         : null),
                                 SizedBox(width: 2.w),
                                 _controlButton(
-                                    "Play", Icons.play_circle, () {}),
+                                    "Play",
+                                    Icons.play_circle,
+                                    () => playFlowWithActions(flowActions,
+                                        ref.read(isPlayingProvider.notifier)),
+                                    backgroundColor: isPlaying
+                                        ? theme.colorScheme.secondary
+                                        : null),
                                 SizedBox(width: 2.w),
                                 _controlButton("Save", Icons.save, () {}),
                               ],

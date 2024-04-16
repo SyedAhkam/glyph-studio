@@ -19,6 +19,7 @@ final glyphsetProvider = FutureProvider<GlyphSet>((ref) async {
 // ------------------ Flow create screen --------------
 
 final isRecordingProvider = StateProvider.autoDispose<bool>((ref) => false);
+final isPlayingProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 final flowActionsProvider =
     StateNotifierProvider.autoDispose<FlowActionsNotifier, List<FlowAction>>(
