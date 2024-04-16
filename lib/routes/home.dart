@@ -13,7 +13,7 @@ import 'package:glyph_studio/models/phone.dart';
 import 'package:glyph_studio/widgets/glyph_view.dart';
 import 'package:glyph_studio/widgets/drawer_view.dart';
 import 'package:glyph_studio/widgets/appbar.dart';
-import 'package:glyph_studio/providers.dart';
+import 'package:glyph_studio/state/providers.dart';
 
 class HomeRoute extends ConsumerWidget {
   HomeRoute({super.key});
