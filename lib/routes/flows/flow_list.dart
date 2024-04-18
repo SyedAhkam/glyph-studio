@@ -15,15 +15,21 @@ class FlowListRoute extends ConsumerWidget {
 
   final glyphPlayer = GetIt.I<GlyphPlayer>();
 
+  void playFlow(BuildContext context, Flow flow) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Playing: '${flow.normalizedName}'")));
+
+    await glyphPlayer.playFlow(flow);
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Done Playing")));
+  }
+
   @override
   Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
 
     var flows = ref.watch(flowsProvider).value!;
-
-    void playFlow(Flow flow) {
-      glyphPlayer.playFlow(flow);
-    }
 
     return Scaffold(
       appBar: const AppbarWrapper(title: "Your Flows", actions: []),
@@ -54,7 +60,7 @@ class FlowListRoute extends ConsumerWidget {
                       IconButton(
                           tooltip: "Play Flow",
                           color: theme.colorScheme.secondary,
-                          onPressed: () => playFlow(flow),
+                          onPressed: () => playFlow(context, flow),
                           icon: const Icon(Icons.play_arrow)),
                       IconButton(
                           tooltip: "Delete Flow",
