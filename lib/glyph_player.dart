@@ -109,4 +109,8 @@ class GlyphPlayer {
 
     await glyphInterface.turnOff();
   }
+
+  Future<void> playFlow(Flow flow) async {
+    playActions(flow.actions);
+  }
 }

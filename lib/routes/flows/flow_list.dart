@@ -1,18 +1,29 @@
+import 'package:flutter/material.dart' hide Flow;
+
 import 'package:date_format/date_format.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:glyph_studio/glyph_player.dart';
 import 'package:glyph_studio/state/providers.dart';
 import 'package:glyph_studio/widgets/appbar.dart';
-import 'package:go_router/go_router.dart';
+import 'package:glyph_studio/models/flow.dart';
 
 class FlowListRoute extends ConsumerWidget {
   FlowListRoute({super.key});
+
+  final glyphPlayer = GetIt.I<GlyphPlayer>();
 
   @override
   Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
 
     var flows = ref.watch(flowsProvider).value!;
+
+    void playFlow(Flow flow) {
+      glyphPlayer.playFlow(flow);
+    }
 
     return Scaffold(
       appBar: const AppbarWrapper(title: "Your Flows", actions: []),
@@ -43,7 +54,7 @@ class FlowListRoute extends ConsumerWidget {
                       IconButton(
                           tooltip: "Play Flow",
                           color: theme.colorScheme.secondary,
-                          onPressed: () {},
+                          onPressed: () => playFlow(flow),
                           icon: const Icon(Icons.play_arrow)),
                       IconButton(
                           tooltip: "Delete Flow",
