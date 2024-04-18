@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart' hide Flow;
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -22,10 +21,87 @@ class FlowCreateRoute extends ConsumerWidget {
 
   final _glyphInterface = GetIt.I<NothingGlyphInterface>();
 
-  void saveFlowWithActions(List<FlowAction> actions) async {
-    final flow = Flow("My cool flow", "SyedAhkam", DateTime.now(), actions);
+  void saveFlowWithActions(
+      BuildContext context, List<FlowAction> actions) async {
+    if (actions.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("No actions in the flow")));
 
-    await flow.saveLocally();
+      return;
+    }
+
+    final GlobalKey<FormState> formKey = GlobalKey();
+
+    String? name;
+    String? authorName;
+
+    void onSave() async {
+      var formState = formKey.currentState!;
+
+      if (!formState.validate()) return;
+      formState.save();
+
+      final flow = Flow(name!.trim(), authorName, DateTime.now(), actions);
+
+      flow.saveLocally().then((_) {
+        context.pop();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Successfully Saved Flow")));
+      });
+    }
+
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Save Flow"),
+              content: SizedBox(
+                height: 24.h,
+                width: 10.h,
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        style: const TextStyle(
+                            fontFamily:
+                                "Roboto"), // have to do this since our bodyLarge is set to ndot
+                        decoration: const InputDecoration(
+                          labelText: "Name",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "name is required";
+                          }
+
+                          return null;
+                        },
+                        onSaved: (val) => name = val,
+                      ),
+                      SizedBox(height: 2.h),
+                      TextFormField(
+                        style: const TextStyle(fontFamily: "Roboto"),
+                        decoration: const InputDecoration(
+                            labelText: "Author name (optional)"),
+                        onSaved: (val) => authorName = val,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: onSave,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red)),
+                  child:
+                      const Text("Save", style: TextStyle(color: Colors.white)),
+                )
+              ],
+            ));
+
+    // await flow.saveLocally();
   }
 
   void playFlowWithActions(
@@ -134,6 +210,7 @@ class FlowCreateRoute extends ConsumerWidget {
           });
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppbarWrapper(title: "CREATE FLOW", actions: [
           IconButton(
               icon: const Icon(Icons.help_outline),
@@ -223,8 +300,11 @@ class FlowCreateRoute extends ConsumerWidget {
                                         ? theme.colorScheme.secondary
                                         : null),
                                 SizedBox(width: 2.w),
-                                _controlButton("Save", Icons.save,
-                                    () => saveFlowWithActions(flowActions)),
+                                _controlButton(
+                                    "Save",
+                                    Icons.save,
+                                    () => saveFlowWithActions(
+                                        context, flowActions)),
                               ],
                             ),
                             Expanded(

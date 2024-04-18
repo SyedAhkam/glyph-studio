@@ -30,7 +30,7 @@ class FlowAction {
 @immutable
 class Flow {
   final String name;
-  final String author;
+  final String? author;
   final DateTime createdAt;
 
   final List<FlowAction> actions;
