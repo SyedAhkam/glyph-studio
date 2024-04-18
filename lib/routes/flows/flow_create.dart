@@ -41,7 +41,8 @@ class FlowCreateRoute extends ConsumerWidget {
       if (!formState.validate()) return;
       formState.save();
 
-      final flow = Flow(name!.trim(), authorName, DateTime.now(), actions);
+      final flow = Flow(name!.trim(), DateTime.now(), Phone.phone2, actions,
+          author: authorName);
 
       flow.saveLocally().then((_) {
         context.pop();
@@ -243,8 +244,8 @@ class FlowCreateRoute extends ConsumerWidget {
                         },
                   ...flowActions.map((a) {
                     return Positioned(
-                      top: a.tapLocation.dy,
-                      left: a.tapLocation.dx,
+                      top: a.tapLocation?.dy,
+                      left: a.tapLocation?.dx,
                       child:
                           _actionPointer(a.seqId, theme.colorScheme.secondary),
                     );

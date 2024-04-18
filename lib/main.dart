@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glyph_studio/routes/flows/flow_create.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:glyph_studio/routes/home.dart';
 import 'package:glyph_studio/routes/oss.dart';
+import 'package:glyph_studio/routes/flows/flow_create.dart';
+import 'package:glyph_studio/routes/flows/flow_list.dart';
 import 'package:glyph_studio/theme.dart';
 
 final _router = GoRouter(
@@ -16,6 +17,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => HomeRoute(),
+    ),
+    GoRoute(
+      path: '/flows',
+      builder: (context, state) => FlowListRoute(),
     ),
     GoRoute(
       path: '/flows/create',

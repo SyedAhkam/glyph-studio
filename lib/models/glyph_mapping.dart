@@ -21,6 +21,22 @@ sealed class GlyphMap {
 
     throw UnimplementedError();
   }
+
+  static GlyphMap fromIndex(Phone phone, int id) {
+    if (phone == Phone.phone1) {
+      return Phone1GlyphMap.fromIndex(id);
+    }
+
+    if (phone == Phone.phone2) {
+      return Phone2GlyphMap.fromIndex(id);
+    }
+
+    if (phone == Phone.phone2a) {
+      return Phone2aGlyphMap.fromIndex(id);
+    }
+
+    throw UnimplementedError();
+  }
 }
 
 enum Phone1GlyphMap implements GlyphMap {
@@ -60,12 +76,8 @@ enum Phone1GlyphMap implements GlyphMap {
     }
   }
 
-  static Phone1GlyphMap? fromIndex(int index) {
-    try {
-      return Phone1GlyphMap.values.firstWhere((e) => e.idx == index);
-    } catch (_) {
-      return null;
-    }
+  static Phone1GlyphMap fromIndex(int index) {
+    return Phone1GlyphMap.values.firstWhere((e) => e.idx == index);
   }
 }
 
@@ -119,12 +131,8 @@ enum Phone2GlyphMap implements GlyphMap {
     }
   }
 
-  static Phone2GlyphMap? fromIndex(int index) {
-    try {
-      return Phone2GlyphMap.values.firstWhere((e) => e.idx == index);
-    } catch (_) {
-      return null;
-    }
+  static Phone2GlyphMap fromIndex(int index) {
+    return Phone2GlyphMap.values.firstWhere((e) => e.idx == index);
   }
 }
 
@@ -171,11 +179,7 @@ enum Phone2aGlyphMap implements GlyphMap {
     }
   }
 
-  static Phone2aGlyphMap? fromIndex(int index) {
-    try {
-      return Phone2aGlyphMap.values.firstWhere((e) => e.idx == index);
-    } catch (_) {
-      return null;
-    }
+  static Phone2aGlyphMap fromIndex(int index) {
+    return Phone2aGlyphMap.values.firstWhere((e) => e.idx == index);
   }
 }

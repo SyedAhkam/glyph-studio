@@ -22,6 +22,11 @@ const snackBarTheme = SnackBarThemeData(
     backgroundColor: Color(0xD51B1D1F),
     contentTextStyle: TextStyle(color: Colors.white));
 
+const floatingActionButtonTheme = FloatingActionButtonThemeData(
+  backgroundColor: Color(0xFFC8102E),
+  foregroundColor: Colors.white,
+);
+
 final theme = ThemeData(useMaterial3: true, textTheme: textTheme);
 
 final darkTheme = ThemeData(
@@ -30,6 +35,7 @@ final darkTheme = ThemeData(
     dialogTheme: dialogTheme,
     inputDecorationTheme: inputDecorationTheme,
     snackBarTheme: snackBarTheme,
+    floatingActionButtonTheme: floatingActionButtonTheme,
     colorScheme: const ColorScheme.dark(
         background: Colors.black,
         surface: Color(0xD51B1D1F), // greyish

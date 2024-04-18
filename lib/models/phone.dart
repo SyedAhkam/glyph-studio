@@ -5,10 +5,18 @@ import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'glyph_mapping.dart';
 
 enum Phone {
-  phone1,
-  phone2,
-  phone2a,
-  unknown;
+  unknown(0),
+  phone1(1),
+  phone2(2),
+  phone2a(3);
+
+  final int idx;
+
+  const Phone(this.idx);
+
+  static Phone fromIndex(int index) {
+    return Phone.values.firstWhere((e) => e.idx == index);
+  }
 
   String get formattedName {
     switch (this) {

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:glyph_studio/models/phone.dart';
@@ -24,3 +27,23 @@ final isPlayingProvider = StateProvider.autoDispose<bool>((ref) => false);
 final flowActionsProvider =
     StateNotifierProvider.autoDispose<FlowActionsNotifier, List<FlowAction>>(
         (ref) => FlowActionsNotifier());
+
+// ----------------- Flow list screen -----------------
+
+final flowsProvider = FutureProvider.autoDispose<List<Flow>>((ref) async {
+  List<Flow> flows = [];
+
+  var flowsDir = await Flow.getLocalFlowsDir();
+
+  var files = await flowsDir.list().toList();
+
+  for (var file in files) {
+    if (file is File) {
+      var fileContents = file.readAsStringSync();
+
+      flows.add(Flow.fromJson(jsonDecode(fileContents)));
+    }
+  }
+
+  return flows;
+});
