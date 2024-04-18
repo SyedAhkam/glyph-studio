@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart' hide Flow;
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,12 @@ class FlowCreateRoute extends ConsumerWidget {
   FlowCreateRoute({super.key});
 
   final _glyphInterface = GetIt.I<NothingGlyphInterface>();
+
+  void saveFlowWithActions(List<FlowAction> actions) async {
+    final flow = Flow("My cool flow", "SyedAhkam", DateTime.now(), actions);
+
+    await flow.saveLocally();
+  }
 
   void playFlowWithActions(
       List<FlowAction> actions, StateNotifier<bool> isPlayingNotifier) async {
@@ -215,7 +223,8 @@ class FlowCreateRoute extends ConsumerWidget {
                                         ? theme.colorScheme.secondary
                                         : null),
                                 SizedBox(width: 2.w),
-                                _controlButton("Save", Icons.save, () {}),
+                                _controlButton("Save", Icons.save,
+                                    () => saveFlowWithActions(flowActions)),
                               ],
                             ),
                             Expanded(
