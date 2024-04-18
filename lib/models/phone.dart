@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:glyph_studio/glyph_player.dart';
 
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 
@@ -51,7 +52,7 @@ enum Phone {
   }
 
   static Future<Phone> guessCurrentPhone() async {
-    final glyphInterface = GetIt.I<NothingGlyphInterface>();
+    final glyphInterface = GetIt.I<GlyphPlayer>().glyphInterface;
 
     var isPhone1 = (await glyphInterface.is20111())!;
     var isPhone2 = (await glyphInterface.is22111())!;

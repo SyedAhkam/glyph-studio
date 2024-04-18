@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glyph_studio/glyph_player.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  GetIt.I.registerSingleton(NothingGlyphInterface());
+  GetIt.I.registerSingleton(GlyphPlayer(NothingGlyphInterface()));
 
   runApp(const ProviderScope(child: MyApp()));
 }

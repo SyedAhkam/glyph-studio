@@ -3,8 +3,8 @@ import 'package:flutter/material.dart' hide Flow;
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:glyph_studio/glyph_player.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:glyph_studio/widgets/appbar.dart';
@@ -19,7 +19,7 @@ import 'package:glyph_studio/custom_painters.dart';
 class FlowCreateRoute extends ConsumerWidget {
   FlowCreateRoute({super.key});
 
-  final _glyphInterface = GetIt.I<NothingGlyphInterface>();
+  final glyphPlayer = GetIt.I<GlyphPlayer>();
 
   void saveFlowWithActions(
       BuildContext context, List<FlowAction> actions) async {
@@ -101,28 +101,14 @@ class FlowCreateRoute extends ConsumerWidget {
                 )
               ],
             ));
-
-    // await flow.saveLocally();
   }
 
   void playFlowWithActions(
       List<FlowAction> actions, StateNotifier<bool> isPlayingNotifier) async {
     isPlayingNotifier.state = true;
 
-    for (var action in actions) {
-      final builder = GlyphFrameBuilder();
+    await glyphPlayer.playActions(actions);
 
-      builder.buildChannel(action.glyph.idx);
-      builder.buildPeriod(action.duration.inMilliseconds);
-
-      await _glyphInterface.buildGlyphFrame(builder.build());
-
-      await _glyphInterface.animate();
-
-      await Future.delayed(action.duration);
-    }
-
-    await _glyphInterface.turnOff();
     isPlayingNotifier.state = false;
   }
 
