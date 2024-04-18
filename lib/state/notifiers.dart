@@ -20,16 +20,3 @@ class FlowActionsNotifier extends StateNotifier<List<FlowAction>> {
     addAction(FlowAction(newSeqId, glyph, tapLocation));
   }
 }
-
-class FlowsNotifier extends AutoDisposeAsyncNotifier<List<Flow>> {
-  @override
-  FutureOr<List<Flow>> build() {
-    return [];
-  }
-
-  Future loadFromFS() async {
-    var flowsDir = await Flow.getLocalFlowsDir();
-
-    var files = await flowsDir.list().toList();
-  }
-}
