@@ -14,7 +14,8 @@ https://github.com/SyedAhkam/glyph-studio/assets/52673095/86f1463a-8592-4ce5-94a
 
 - Support for Phone (1), Phone (2), and Phone (2a) glyph layouts.
 - Absolute control over Glyphs (long-term goal)
-- Allow recording & playing back Flows. (TODO)
+- Allow recording & playing back Flows.
+- Community built Flows (Planned)
 - Intuitive, user-friendly Nothing inspired design.
 - Powered by [Nothing Glyph Developer Kit](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit) and [this flutter wrapper](https://github.com/JayKay135/flutter-nothing-glyph-interface).
 
