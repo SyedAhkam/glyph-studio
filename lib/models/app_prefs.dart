@@ -4,14 +4,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+@immutable
 class AppPrefs {
-  ThemeMode themeMode;
-  bool enableHaptics;
+  final ThemeMode themeMode;
+  final bool enableHaptics;
 
-  AppPrefs(this.themeMode, this.enableHaptics);
+  const AppPrefs(this.themeMode, this.enableHaptics);
 
   factory AppPrefs.defaults() {
-    return AppPrefs(ThemeMode.dark, true);
+    return const AppPrefs(ThemeMode.dark, true);
   }
 
   static fromJson(String contents) {
@@ -36,18 +37,11 @@ class AppPrefs {
   String toJson() => jsonEncode(
       {"theme_mode": themeMode.name, "enable_haptics": enableHaptics});
 
-  Future<void> updateLocalStorage() async {
+  Future<void> saveToLocalStorage() async {
     final json = toJson();
     final cacheDir = await getExternalStorageDirectory();
 
     final file = File("${cacheDir!.path}/$fileName");
     await file.writeAsString(json);
-  }
-
-  Future<void> updateValues({ThemeMode? themeMode, bool? enableHaptics}) async {
-    this.themeMode = themeMode ?? this.themeMode;
-    this.enableHaptics = enableHaptics ?? this.enableHaptics;
-
-    await updateLocalStorage();
   }
 }

@@ -53,7 +53,8 @@ class MyApp extends ConsumerWidget {
         theme: theme,
         darkTheme: darkTheme,
         routerConfig: _router,
-        themeMode: appPrefs.value?.themeMode,
+        themeMode: appPrefs.value?.themeMode ??
+            ThemeMode.dark, // FIXME: can cause flickers in light mode
       );
     });
   }

@@ -8,18 +8,8 @@ import 'package:glyph_studio/state/notifiers.dart';
 
 // ------------------- Common ----------------------
 
-final appPrefsProvider = FutureProvider<AppPrefs>((ref) async {
-  try {
-    return await AppPrefs.fromLocalStorage(); // this could fail on first launch
-  } catch (_) {
-    // thus we initialise a default app pref and save it when that happens
-    final defaults = AppPrefs.defaults();
-
-    await defaults.updateLocalStorage();
-
-    return defaults;
-  }
-});
+final appPrefsProvider =
+    AsyncNotifierProvider<AppPrefsNotifier, AppPrefs>(() => AppPrefsNotifier());
 
 final currentPhoneProvider =
     FutureProvider<Phone>((ref) async => await Phone.guessCurrentPhone());

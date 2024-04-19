@@ -5,9 +5,38 @@ import 'dart:io';
 import 'package:flutter/material.dart' hide Flow;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glyph_studio/models/app_prefs.dart';
 
 import 'package:glyph_studio/models/flow.dart';
 import 'package:glyph_studio/models/glyph_mapping.dart';
+
+class AppPrefsNotifier extends AsyncNotifier<AppPrefs> {
+  @override
+  FutureOr<AppPrefs> build() async {
+    try {
+      return await AppPrefs
+          .fromLocalStorage(); // this could fail on first launch
+    } catch (_) {
+      // thus we initialise a default app pref and save it when that happens
+      final defaults = AppPrefs.defaults();
+
+      await defaults.saveToLocalStorage();
+
+      return defaults;
+    }
+  }
+
+  Future<void> updateValues({ThemeMode? themeMode, bool? enableHaptics}) async {
+    var current = state.value!;
+
+    var new_ = AppPrefs(
+        themeMode ?? current.themeMode, enableHaptics ?? current.enableHaptics);
+
+    await new_.saveToLocalStorage();
+
+    state = AsyncValue.data(new_);
+  }
+}
 
 class FlowActionsNotifier extends StateNotifier<List<FlowAction>> {
   FlowActionsNotifier() : super([]);
