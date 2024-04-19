@@ -1,12 +1,14 @@
 import 'dart:math';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:glyph_studio/gen/assets.gen.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:svg_path_parser/svg_path_parser.dart';
 
+import 'package:glyph_studio/gen/assets.gen.dart';
+import 'package:glyph_studio/state/providers.dart';
+import 'package:glyph_studio/models/app_prefs.dart';
 import 'package:glyph_studio/models/glyph_set.dart';
 import 'package:glyph_studio/models/glyph_mapping.dart';
 
@@ -48,7 +50,7 @@ class Clipper extends CustomClipper<Path> {
   }
 }
 
-class GlyphView extends StatefulWidget {
+class GlyphView extends ConsumerStatefulWidget {
   final GlyphSet glyphSet;
   final Future<void> Function(GlyphMap)? onGlyphTap;
   final Future<void> Function(TapDownDetails, GlyphMap)? onGlyphTapDown;
@@ -64,17 +66,20 @@ class GlyphView extends StatefulWidget {
       this.onGlyphLongPressEnd});
 
   @override
-  State<GlyphView> createState() => _GlyphViewState();
+  ConsumerState<GlyphView> createState() => _GlyphViewState();
 }
 
-class _GlyphViewState extends State<GlyphView> {
+class _GlyphViewState extends ConsumerState<GlyphView> {
   final player = AudioPlayer();
 
   GlyphMap? highlightedGlyph;
+  AppPrefs? appPrefs;
 
   @override
   void initState() {
     super.initState();
+
+    appPrefs = (ref.read(appPrefsProvider)).value;
 
     player.audioCache = AudioCache(prefix: ''); // remove asset prefix
     player.setSourceAsset(Assets.sounds.a);
@@ -87,7 +92,7 @@ class _GlyphViewState extends State<GlyphView> {
     setState(() => highlightedGlyph = glyph);
 
     // Trigger haptics
-    await HapticFeedback.selectionClick();
+    if (appPrefs!.enableHaptics) await HapticFeedback.selectionClick();
 
     // Play sound
     await player.resume();
@@ -107,7 +112,7 @@ class _GlyphViewState extends State<GlyphView> {
     setState(() => highlightedGlyph = glyph);
 
     // Trigger haptics
-    await HapticFeedback.selectionClick();
+    if (appPrefs!.enableHaptics) await HapticFeedback.selectionClick();
 
     // Play sound
     await player.resume();
@@ -132,7 +137,7 @@ class _GlyphViewState extends State<GlyphView> {
     setState(() => highlightedGlyph = glyph);
 
     // Trigger haptics
-    await HapticFeedback.heavyImpact();
+    if (appPrefs!.enableHaptics) await HapticFeedback.heavyImpact();
 
     // Redirect control to parent widget
     await widget.onGlyphLongPressStart?.call(glyph);
@@ -143,7 +148,7 @@ class _GlyphViewState extends State<GlyphView> {
     if (glyph.group == null) return;
 
     // Trigger haptics
-    await HapticFeedback.mediumImpact();
+    if (appPrefs!.enableHaptics) await HapticFeedback.mediumImpact();
 
     // Redirect control to parent widget
     await widget.onGlyphLongPressEnd?.call(glyph);
