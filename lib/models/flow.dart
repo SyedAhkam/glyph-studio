@@ -91,4 +91,10 @@ class Flow {
 
     await File("${flowsDir.path}/$normalizedName.json").writeAsString(json);
   }
+
+  Future<void> delete() async {
+    final flowsDir = await getLocalFlowsDir();
+
+    await File("${flowsDir.path}/$normalizedName.json").delete();
+  }
 }

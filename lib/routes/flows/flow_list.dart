@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Flow;
 import 'package:date_format/date_format.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:glyph_studio/state/notifiers.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:glyph_studio/glyph_player.dart';
@@ -25,11 +26,20 @@ class FlowListRoute extends ConsumerWidget {
         .showSnackBar(const SnackBar(content: Text("Done Playing")));
   }
 
+  void deleteFlow(
+      BuildContext context, FlowsNotifier flowsNotifier, Flow flow) {
+    flowsNotifier.delete(flow.name).then((_) => {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Deleted Flow")))
+        });
+  }
+
   @override
   Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
 
     var flows = ref.watch(flowsProvider).value!;
+    var flowsNotifier = ref.watch(flowsProvider.notifier);
 
     return Scaffold(
       appBar: const AppbarWrapper(title: "YOUR FLOWS", actions: []),
@@ -65,7 +75,8 @@ class FlowListRoute extends ConsumerWidget {
                       IconButton(
                           tooltip: "Delete Flow",
                           color: Colors.grey,
-                          onPressed: () {},
+                          onPressed: () =>
+                              deleteFlow(context, flowsNotifier, flow),
                           icon: const Icon(Icons.delete))
                     ],
                   ),
