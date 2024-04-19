@@ -32,7 +32,7 @@ class FlowListRoute extends ConsumerWidget {
     var flows = ref.watch(flowsProvider).value!;
 
     return Scaffold(
-      appBar: const AppbarWrapper(title: "Your Flows", actions: []),
+      appBar: const AppbarWrapper(title: "YOUR FLOWS", actions: []),
       floatingActionButton: FloatingActionButton(
           tooltip: "Create New",
           child: const Icon(Icons.add),

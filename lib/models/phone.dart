@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:glyph_studio/glyph_player.dart';
 
-import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
-
 import 'glyph_mapping.dart';
 
 enum Phone {

@@ -71,7 +71,7 @@ class DrawerView extends StatelessWidget {
                   ],
                   borderTop: false),
               listSection(null, [
-                listTile("Preferences", onTap: () => context.goNamed("/prefs"))
+                listTile("Preferences", onTap: () => context.push("/prefs"))
               ]),
               listSection(null, [
                 listTile("Open Source Licenses",
