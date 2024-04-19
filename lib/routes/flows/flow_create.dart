@@ -198,11 +198,11 @@ class FlowCreateRoute extends ConsumerWidget {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppbarWrapper(title: "CREATE FLOW", actions: [
-          IconButton(
-              icon: const Icon(Icons.help_outline),
-              tooltip: "Help",
-              onPressed: () {})
+        appBar: const AppbarWrapper(title: "CREATE FLOW", actions: [
+          // IconButton(
+          //     icon: const Icon(Icons.help_outline),
+          //     tooltip: "Help",
+          //     onPressed: () {})
         ]),
         body: Padding(
           padding: const EdgeInsets.only(top: 32),
