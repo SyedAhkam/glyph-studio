@@ -38,7 +38,7 @@ class FlowListRoute extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
 
-    var flows = ref.watch(flowsProvider).value!;
+    var flows = ref.watch(flowsProvider).value;
     var flowsNotifier = ref.watch(flowsProvider.notifier);
 
     return Scaffold(
@@ -47,7 +47,7 @@ class FlowListRoute extends ConsumerWidget {
           tooltip: "Create New",
           child: const Icon(Icons.add),
           onPressed: () => context.replace("/flows/create")),
-      body: flows.isEmpty
+      body: flows != null && flows.isEmpty
           ? Center(
               child: const Text(
               "No Flows yet!\nCreate one using the + button",
@@ -55,7 +55,7 @@ class FlowListRoute extends ConsumerWidget {
             ))
           : ListView.builder(
               itemBuilder: (context, index) {
-                var flow = flows[index];
+                var flow = flows![index];
 
                 return ListTile(
                   onTap: () {},
@@ -82,7 +82,7 @@ class FlowListRoute extends ConsumerWidget {
                   ),
                 );
               },
-              itemCount: flows.length),
+              itemCount: flows?.length),
     );
   }
 }
