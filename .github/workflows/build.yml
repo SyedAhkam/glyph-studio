@@ -22,4 +22,9 @@ jobs:
         with:
           arguments: "--impure --accept-flake-config"
       - run: flutter build apk --release
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: build/app/outputs/flutter-apk/app-release.apk*
       - run: echo "Done"
