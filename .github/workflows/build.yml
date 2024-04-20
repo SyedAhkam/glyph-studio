@@ -23,14 +23,14 @@ jobs:
           arguments: "--impure --accept-flake-config"
       - run: flutter build apk --release
 
-      - name: Move files to artifacts directory
-        run: |
-          mkdir -p artifacts
-          mv build/app/outputs/flutter-apk/app-release.apk* artifacts/
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts
-          path: ./artifacts
-      - run: echo "Done"
+          name: app-release.apk.sha1
+          path: build/app/outputs/flutter-apk/app-release.apk.sha1
