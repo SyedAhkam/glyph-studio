@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install Nix
+        uses: cachix/install-nix-action@v26
+
       - name: Nix Develop Action
         uses: nicknovitski/nix-develop@v1.1.0
       - run: flutter build apk --release
