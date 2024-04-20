@@ -17,5 +17,7 @@ jobs:
 
       - name: Nix Develop Action
         uses: nicknovitski/nix-develop@v1.1.0
+        with:
+          arguments: "--impure --accept-flake-config"
       - run: flutter build apk --release
       - run: echo "Done"
