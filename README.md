@@ -23,7 +23,7 @@ https://github.com/SyedAhkam/glyph-studio/assets/52673095/86f1463a-8592-4ce5-94a
 
 - Grab an apk from the latest release [here](https://github.com/SyedAhkam/glyph-studio/releases/latest) or alternatively check out the build artifacts for the [Build workflow](https://github.com/SyedAhkam/glyph-studio/actions/workflows/build.yml) (these are built on each commit to the repository).
 - Optionally verify the sha1sum of the APK file.
-- Install the app onto your Nothing device a Glyph away!
+- Install the app onto your Nothing device and Glyph away!
 
 ## Build Instructions
 
