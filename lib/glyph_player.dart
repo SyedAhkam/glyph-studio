@@ -12,6 +12,40 @@ class GlyphPlayer {
 
   Timer? _longPressAnimationTimer;
 
+  // Custom wrapper buildChannelC method
+  // since default buildChannelC() is inconsistent across different phones
+  void buildChannelC(Phone phone, GlyphFrameBuilder builder) {
+    switch (phone) {
+      case Phone.phone1:
+        builder.buildChannel(Phone1GlyphMap.c1.idx);
+        builder.buildChannel(Phone1GlyphMap.c2.idx);
+        builder.buildChannel(Phone1GlyphMap.c3.idx);
+        builder.buildChannel(Phone1GlyphMap.c4.idx);
+      case Phone.phone2:
+        builder.buildChannel(Phone2GlyphMap.c1_1.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_2.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_3.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_4.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_5.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_6.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_7.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_8.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_9.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_10.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_11.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_12.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_13.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_14.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_15.idx);
+        builder.buildChannel(Phone2GlyphMap.c1_16.idx);
+      case Phone.phone2a:
+        // for phone 2a, default is sufficient
+        builder.buildChannelC();
+      default:
+        throw UnimplementedError();
+    }
+  }
+
   Future<void> handleSingleGlyph(GlyphMap glyph, Phone phone) async {
     var builder = GlyphFrameBuilder();
 
@@ -20,34 +54,8 @@ class GlyphPlayer {
       switch (glyph.group) {
         case "d1":
           builder.buildChannelD();
-        case "c1":
-          if (phone == Phone.phone2) {
-            // since phone 2 has multiple sections under channel C
-            // had to pull in this hack, to light up everything under c1
-            // since buildChannelC() lights up the whole ring
-            builder.buildChannel(Phone2GlyphMap.c1_1.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_2.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_3.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_4.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_5.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_6.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_7.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_8.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_9.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_10.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_11.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_12.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_13.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_14.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_15.idx);
-            builder.buildChannel(Phone2GlyphMap.c1_16.idx);
-          } else {
-            // for phone 1
-            builder.buildChannelC();
-          }
-
-        case "c":
-          builder.buildChannelC();
+        case "c1" || "c":
+          buildChannelC(phone, builder);
       }
     } else {
       builder.buildChannel(glyph.idx);
