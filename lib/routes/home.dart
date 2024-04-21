@@ -59,7 +59,9 @@ class HomeRoute extends ConsumerWidget {
                           _ => switch (ref.watch(glyphsetProvider)) {
                               AsyncData(:final value) => GlyphView(
                                   glyphSet: value,
-                                  onGlyphTap: glyphPlayer.handleSingleGlyph,
+                                  onGlyphTap: (glyph) =>
+                                      glyphPlayer.handleSingleGlyph(
+                                          glyph, currentPhone.value!),
                                   onGlyphLongPressStart:
                                       glyphPlayer.handleLongPressStart,
                                   onGlyphLongPressEnd:

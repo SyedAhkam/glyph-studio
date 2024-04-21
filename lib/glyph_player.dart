@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:glyph_studio/models/flow.dart';
 import 'package:glyph_studio/models/glyph_mapping.dart';
+import 'package:glyph_studio/models/phone.dart';
 import 'package:nothing_glyph_interface/nothing_glyph_interface.dart';
 
 class GlyphPlayer {
@@ -11,7 +12,7 @@ class GlyphPlayer {
 
   Timer? _longPressAnimationTimer;
 
-  Future<void> handleSingleGlyph(GlyphMap glyph) async {
+  Future<void> handleSingleGlyph(GlyphMap glyph, Phone phone) async {
     var builder = GlyphFrameBuilder();
 
     // Choose glyph channel
@@ -19,25 +20,32 @@ class GlyphPlayer {
       switch (glyph.group) {
         case "d1":
           builder.buildChannelD();
-        case "c1": // phone 2 exclusive group
-          // had to pull in this hack, to light up everything under c1
-          // since buildChannelC() lights up the whole ring
-          builder.buildChannel(Phone2GlyphMap.c1_1.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_2.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_3.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_4.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_5.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_6.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_7.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_8.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_9.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_10.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_11.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_12.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_13.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_14.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_15.idx);
-          builder.buildChannel(Phone2GlyphMap.c1_16.idx);
+        case "c1":
+          if (phone == Phone.phone2) {
+            // since phone 2 has multiple sections under channel C
+            // had to pull in this hack, to light up everything under c1
+            // since buildChannelC() lights up the whole ring
+            builder.buildChannel(Phone2GlyphMap.c1_1.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_2.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_3.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_4.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_5.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_6.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_7.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_8.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_9.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_10.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_11.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_12.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_13.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_14.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_15.idx);
+            builder.buildChannel(Phone2GlyphMap.c1_16.idx);
+          } else {
+            // for phone 1
+            builder.buildChannelC();
+          }
+
         case "c":
           builder.buildChannelC();
       }
