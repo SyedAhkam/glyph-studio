@@ -24,7 +24,7 @@ jobs:
 
       - run: flutter build apk --release
 
-     - name: Move files to artifacts directory
+      - name: Move files to artifacts directory
         run: |
           mkdir -p artifacts
           mv build/app/outputs/flutter-apk/app-release.apk artifacts/
