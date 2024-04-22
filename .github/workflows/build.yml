@@ -21,16 +21,18 @@ jobs:
         uses: nicknovitski/nix-develop@v1.1.0
         with:
           arguments: "--impure --accept-flake-config"
+
       - run: flutter build apk --release
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+     - name: Move files to artifacts directory
+        run: |
+          mkdir -p artifacts
+          mv build/app/outputs/flutter-apk/app-release.apk artifacts/
+          mv build/app/outputs/flutter-apk/app-release.apk.sha1 artifacts/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.apk.sha1
-          path: build/app/outputs/flutter-apk/app-release.apk.sha1
+          name: glyph-studio.zip
+          path: ./artifacts
+
