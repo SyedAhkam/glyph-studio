@@ -1,6 +1,12 @@
 import "package:flutter/material.dart";
 import "package:glyph_studio/gen/fonts.gen.dart";
 
+const grey = Color(0xD51B1D1F);
+const nothingRed = Color(0xFFC8102E);
+const nothingCreamyWhite = Color(0xFFD7D8D8);
+const nothingLightSurface = Color(0xFFE7E9E9);
+const plainWhite = Colors.white;
+
 const textTheme = TextTheme(
   displaySmall: TextStyle(fontFamily: FontFamily.ndot),
   headlineMedium: TextStyle(fontFamily: FontFamily.ndot),
@@ -10,35 +16,47 @@ const textTheme = TextTheme(
 );
 
 const dialogTheme = DialogTheme(
-  // colors same as surface
-  backgroundColor: Color(0xD51B1D1F),
-  surfaceTintColor: Color(0xD51B1D1F),
+  surfaceTintColor: Colors.transparent,
 );
 
 const inputDecorationTheme = InputDecorationTheme(
-    labelStyle: TextStyle(fontFamily: 'Roboto', color: Colors.white));
+    labelStyle: TextStyle(fontFamily: 'Roboto', color: plainWhite));
 
 const snackBarTheme = SnackBarThemeData(
-    backgroundColor: Color(0xD51B1D1F),
-    contentTextStyle: TextStyle(color: Colors.white));
+    backgroundColor: grey, contentTextStyle: TextStyle(color: plainWhite));
 
 const floatingActionButtonTheme = FloatingActionButtonThemeData(
-  backgroundColor: Color(0xFFC8102E),
-  foregroundColor: Colors.white,
+  backgroundColor: nothingRed,
+  foregroundColor: plainWhite,
 );
 
-final theme = ThemeData(useMaterial3: true, textTheme: textTheme);
+final lightTheme = ThemeData(
+  useMaterial3: true,
+  textTheme: textTheme,
+  dialogTheme: dialogTheme,
+  snackBarTheme: snackBarTheme,
+  floatingActionButtonTheme: floatingActionButtonTheme,
+  colorScheme: const ColorScheme.light(
+      background: nothingCreamyWhite,
+      surface: nothingLightSurface,
+      secondary: nothingRed,
+      tertiary: nothingRed,
+      surfaceTint: nothingRed),
+  brightness: Brightness.light,
+);
 
 final darkTheme = ThemeData(
-    useMaterial3: true,
-    textTheme: textTheme,
-    dialogTheme: dialogTheme,
-    inputDecorationTheme: inputDecorationTheme,
-    snackBarTheme: snackBarTheme,
-    floatingActionButtonTheme: floatingActionButtonTheme,
-    colorScheme: const ColorScheme.dark(
-        background: Colors.black,
-        surface: Color(0xD51B1D1F), // greyish
-        secondary: Color(0xFFC8102E),
-        tertiary: Color(0xFFC8102E)),
-    brightness: Brightness.dark);
+  useMaterial3: true,
+  textTheme: textTheme,
+  dialogTheme: dialogTheme,
+  inputDecorationTheme: inputDecorationTheme,
+  snackBarTheme: snackBarTheme,
+  floatingActionButtonTheme: floatingActionButtonTheme,
+  colorScheme: const ColorScheme.dark(
+      background: Colors.black,
+      surface: grey,
+      secondary: nothingRed,
+      tertiary: nothingRed,
+      surfaceTint: nothingRed),
+  brightness: Brightness.dark,
+);

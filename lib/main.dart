@@ -50,7 +50,7 @@ class MyApp extends ConsumerWidget {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
       return MaterialApp.router(
         title: "Glyph Studio",
-        theme: theme,
+        theme: lightTheme,
         darkTheme: darkTheme,
         routerConfig: _router,
         themeMode: appPrefs.value?.themeMode ??

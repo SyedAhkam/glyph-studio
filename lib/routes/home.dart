@@ -42,6 +42,7 @@ class HomeRoute extends ConsumerWidget {
         ),
         endDrawer: Drawer(
             backgroundColor: theme.colorScheme.surface.withOpacity(0.95),
+            surfaceTintColor: Colors.transparent,
             child: const DrawerView()),
         body: Container(
           width: 100.w,
@@ -78,6 +79,7 @@ class HomeRoute extends ConsumerWidget {
                 height: 16.h,
                 width: 100.w,
                 child: Card.filled(
+                  elevation: 0.5,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(24))),
                   child: Padding(
@@ -98,8 +100,9 @@ class HomeRoute extends ConsumerWidget {
                                   "Running on ${currentPhone.value?.formattedName}",
                                   style: theme.textTheme.headlineMedium!
                                       .copyWith(
-                                          color:
-                                              Colors.white.withOpacity(0.82))),
+                                          color: theme
+                                              .textTheme.headlineMedium!.color!
+                                              .withOpacity(0.82))),
                             ),
                           ),
                           Text(

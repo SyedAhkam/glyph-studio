@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DiamondArrowPainter extends CustomPainter {
+  Color color;
+
+  DiamondArrowPainter({required this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Path path = Path();
     final Paint paint = Paint();
 
-    paint.color = const Color(0xffffffff).withOpacity(0.64);
+    paint.color = color;
     path.moveTo(size.width * 0.01, size.height * 0.5);
     path.lineTo(size.width * 0.19, size.height * 0.88);
     path.lineTo(size.width * 0.37, size.height * 0.5);

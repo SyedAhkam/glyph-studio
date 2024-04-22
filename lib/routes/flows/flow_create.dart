@@ -22,7 +22,7 @@ class FlowCreateRoute extends ConsumerWidget {
   final glyphPlayer = GetIt.I<GlyphPlayer>();
 
   void saveFlowWithActions(
-      BuildContext context, List<FlowAction> actions) async {
+      BuildContext context, List<FlowAction> actions, ThemeData theme) async {
     if (actions.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("No actions in the flow")));
@@ -55,6 +55,7 @@ class FlowCreateRoute extends ConsumerWidget {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+              backgroundColor: theme.colorScheme.surface,
               title: const Text("Save Flow"),
               content: SizedBox(
                 height: 24.h,
@@ -95,7 +96,8 @@ class FlowCreateRoute extends ConsumerWidget {
                 TextButton(
                   onPressed: onSave,
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red)),
+                      backgroundColor: MaterialStateProperty.all(
+                          theme.colorScheme.secondary)),
                   child:
                       const Text("Save", style: TextStyle(color: Colors.white)),
                 )
@@ -121,20 +123,22 @@ class FlowCreateRoute extends ConsumerWidget {
     flowActionsNotifier.createAction(glyph, coords);
   }
 
-  Widget _controlButton(String tooltip, IconData icon, VoidCallback onClick,
-      {Color? backgroundColor}) {
+  Widget _controlButton(
+      String tooltip, IconData icon, VoidCallback onClick, ThemeData theme,
+      {bool withBackground = false}) {
     return IconButton(
         iconSize: 18.sp,
         padding: const EdgeInsets.all(16),
         tooltip: tooltip,
         icon: Icon(icon),
         onPressed: onClick,
+        color: withBackground ? Colors.white : null,
         style: ButtonStyle(
             side: MaterialStateProperty.all(
-                BorderSide(color: Colors.white.withOpacity(0.64))),
-            backgroundColor: backgroundColor == null
-                ? null
-                : MaterialStateProperty.all(backgroundColor)));
+                BorderSide(color: Colors.grey.withOpacity(0.64))),
+            backgroundColor: withBackground
+                ? MaterialStateProperty.all(theme.colorScheme.secondary)
+                : null));
   }
 
   Widget _flowActionView(
@@ -155,7 +159,7 @@ class FlowCreateRoute extends ConsumerWidget {
     );
   }
 
-  Widget _actionPointer(int seqId, Color bgColor) {
+  Widget _actionPointer(int seqId, ThemeData theme) {
     return DottedBorder(
       color: Colors.white.withOpacity(0.64),
       padding: EdgeInsets.zero,
@@ -166,9 +170,10 @@ class FlowCreateRoute extends ConsumerWidget {
           width: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: bgColor,
+              color: theme.colorScheme.secondary,
               borderRadius: const BorderRadius.all(Radius.circular(32))),
-          child: Text(seqId.toString())),
+          child: Text(seqId.toString(),
+              style: const TextStyle(color: Colors.white))),
     );
   }
 
@@ -188,12 +193,18 @@ class FlowCreateRoute extends ConsumerWidget {
         : List.generate(flowActions.length * 2 - 1, (idx) {
             if (idx.isEven) {
               var actionIdx = idx ~/ 2;
-              return _flowActionView(flowActions[actionIdx],
-                  theme.colorScheme.secondary, theme.textTheme.headlineSmall!);
+              return _flowActionView(
+                  flowActions[actionIdx],
+                  theme.colorScheme.secondary,
+                  theme.textTheme.headlineSmall!.copyWith(color: Colors.white));
             }
 
             return CustomPaint(
-                painter: DiamondArrowPainter(), size: const Size(64, 30));
+                painter: DiamondArrowPainter(
+                    color: theme.brightness == Brightness.light
+                        ? Colors.grey.withOpacity(0.48)
+                        : Colors.white.withOpacity(0.48)),
+                size: const Size(64, 30));
           });
 
     return Scaffold(
@@ -232,8 +243,7 @@ class FlowCreateRoute extends ConsumerWidget {
                     return Positioned(
                       top: a.tapLocation?.dy,
                       left: a.tapLocation?.dx,
-                      child:
-                          _actionPointer(a.seqId, theme.colorScheme.secondary),
+                      child: _actionPointer(a.seqId, theme),
                     );
                   }),
                 ],
@@ -243,7 +253,9 @@ class FlowCreateRoute extends ConsumerWidget {
                 height: 28.h,
                 width: 100.w,
                 child: Card(
+                  elevation: 0.5,
                   color: theme.colorScheme.surface,
+                  surfaceTintColor: Colors.transparent,
                   shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
@@ -255,7 +267,8 @@ class FlowCreateRoute extends ConsumerWidget {
                             border: Border(
                                 bottom: BorderSide(
                                     width: 2,
-                                    color: Colors.white.withOpacity(0.16)))),
+                                    color:
+                                        theme.dividerColor.withOpacity(0.16)))),
                         height: 10.h,
                         child: Row(
                           children: [
@@ -273,25 +286,23 @@ class FlowCreateRoute extends ConsumerWidget {
                                     "Record", Icons.fiber_manual_record, () {
                                   ref.read(isRecordingProvider.notifier).state =
                                       !isRecording;
-                                },
-                                    backgroundColor: isRecording
-                                        ? theme.colorScheme.secondary
-                                        : null),
+                                }, theme, withBackground: isRecording),
                                 SizedBox(width: 2.w),
                                 _controlButton(
                                     "Play",
                                     Icons.play_circle,
                                     () => playFlowWithActions(flowActions,
                                         ref.read(isPlayingProvider.notifier)),
-                                    backgroundColor: isPlaying
-                                        ? theme.colorScheme.secondary
-                                        : null),
+                                    theme,
+                                    withBackground: isPlaying),
                                 SizedBox(width: 2.w),
                                 _controlButton(
-                                    "Save",
-                                    Icons.save,
-                                    () => saveFlowWithActions(
-                                        context, flowActions)),
+                                  "Save",
+                                  Icons.save,
+                                  () => saveFlowWithActions(
+                                      context, flowActions, theme),
+                                  theme,
+                                ),
                               ],
                             ),
                             Expanded(

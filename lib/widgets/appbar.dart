@@ -15,8 +15,8 @@ class AppbarWrapper extends StatelessWidget implements PreferredSizeWidget {
         title: Text(title, style: theme.textTheme.displaySmall),
         backgroundColor: theme.colorScheme.background,
         actions: actions,
-        shape:
-            Border(bottom: BorderSide(color: Colors.white.withOpacity(0.33))));
+        shape: Border(
+            bottom: BorderSide(color: theme.dividerColor.withOpacity(0.33))));
   }
 
   @override

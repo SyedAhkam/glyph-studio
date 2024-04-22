@@ -63,7 +63,9 @@ class FlowListRoute extends ConsumerWidget {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   title: Text(flow.name),
                   subtitle: Text(formatDate(flow.createdAt, [dd, ' ', MM]),
-                      style: TextStyle(color: Colors.white.withOpacity(0.64))),
+                      style: TextStyle(
+                          color: theme.colorScheme.onBackground
+                              .withOpacity(0.32))),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
