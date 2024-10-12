@@ -19,6 +19,11 @@ class PrefsRoute extends ConsumerWidget {
     await appPrefsNotifier.updateValues(enableHaptics: value);
   }
 
+  void switchMirrorGlyphView(BuildContext context,
+      AppPrefsNotifier appPrefsNotifier, bool value) async {
+    await appPrefsNotifier.updateValues(mirrorGlyphView: value);
+  }
+
   @override
   Widget build(BuildContext context, ref) {
     var theme = Theme.of(context);
@@ -84,6 +89,19 @@ class PrefsRoute extends ConsumerWidget {
                   value: appPrefs.value?.enableHaptics ?? false,
                   onChanged: (v) =>
                       switchEnableHaptics(context, appPrefsNotifier, v),
+                ),
+              ),
+              ListTile(
+                title: const Text("Mirror Glyphs"),
+                trailing: Switch(
+                  thumbColor: MaterialStateProperty.all(Colors.red),
+                  trackColor: MaterialStateProperty.all(Colors.transparent),
+                  trackOutlineColor:
+                      MaterialStateProperty.all(Colors.white.withOpacity(0.64)),
+                  trackOutlineWidth: MaterialStateProperty.all(1),
+                  value: appPrefs.value?.mirrorGlyphView ?? false,
+                  onChanged: (v) =>
+                      switchMirrorGlyphView(context, appPrefsNotifier, v),
                 ),
               ),
             ],

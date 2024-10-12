@@ -8,11 +8,12 @@ import 'package:path_provider/path_provider.dart';
 class AppPrefs {
   final ThemeMode themeMode;
   final bool enableHaptics;
+  final bool mirrorGlyphView;
 
-  const AppPrefs(this.themeMode, this.enableHaptics);
+  const AppPrefs(this.themeMode, this.enableHaptics, this.mirrorGlyphView);
 
   factory AppPrefs.defaults() {
-    return const AppPrefs(ThemeMode.dark, true);
+    return const AppPrefs(ThemeMode.dark, true, false);
   }
 
   static fromJson(String contents) {
@@ -20,7 +21,8 @@ class AppPrefs {
 
     return AppPrefs(
         ThemeMode.values.firstWhere((e) => e.name == map['theme_mode']),
-        map['enable_haptics']);
+        map['enable_haptics'],
+        map['mirror_glyph_view']);
   }
 
   static get fileName => "app_prefs.json";
@@ -34,8 +36,11 @@ class AppPrefs {
     return fromJson(fileContents);
   }
 
-  String toJson() => jsonEncode(
-      {"theme_mode": themeMode.name, "enable_haptics": enableHaptics});
+  String toJson() => jsonEncode({
+        "theme_mode": themeMode.name,
+        "enable_haptics": enableHaptics,
+        "mirror_glyph_view": mirrorGlyphView
+      });
 
   Future<void> saveToLocalStorage() async {
     final json = toJson();

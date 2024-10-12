@@ -167,24 +167,27 @@ class _GlyphViewState extends ConsumerState<GlyphView> {
           children: widget.glyphSet.pathDefs.map((def) {
             var parsedPath = parseSvgPath(def.$2);
 
-            return ClipPath(
-                clipper: Clipper(
-                    path: parsedPath,
-                    originalHeight: widget.glyphSet.viewBoxHeight,
-                    originalWidth: widget.glyphSet.viewBoxWidth),
-                child: GestureDetector(
-                    onTap: () =>
-                        widget.onGlyphTap != null ? processTap(def.$1) : null,
-                    onTapDown: (details) => widget.onGlyphTapDown != null
-                        ? processTapDown(details, def.$1)
-                        : null,
-                    onLongPressStart: (_) => processLongPressStart(def.$1),
-                    onLongPressEnd: (_) => processLongPressEnd(def.$1),
-                    child: Container(
-                      color: highlightedGlyph == def.$1
-                          ? theme.colorScheme.secondary
-                          : Colors.grey,
-                    )));
+            return Transform.flip(
+              flipX: appPrefs?.mirrorGlyphView ?? false,
+              child: ClipPath(
+                  clipper: Clipper(
+                      path: parsedPath,
+                      originalHeight: widget.glyphSet.viewBoxHeight,
+                      originalWidth: widget.glyphSet.viewBoxWidth),
+                  child: GestureDetector(
+                      onTap: () =>
+                          widget.onGlyphTap != null ? processTap(def.$1) : null,
+                      onTapDown: (details) => widget.onGlyphTapDown != null
+                          ? processTapDown(details, def.$1)
+                          : null,
+                      onLongPressStart: (_) => processLongPressStart(def.$1),
+                      onLongPressEnd: (_) => processLongPressEnd(def.$1),
+                      child: Container(
+                        color: highlightedGlyph == def.$1
+                            ? theme.colorScheme.secondary
+                            : Colors.grey,
+                      ))),
+            );
           }).toList(),
         );
       }),
