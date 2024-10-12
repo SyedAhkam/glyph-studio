@@ -26,11 +26,16 @@ class AppPrefsNotifier extends AsyncNotifier<AppPrefs> {
     }
   }
 
-  Future<void> updateValues({ThemeMode? themeMode, bool? enableHaptics}) async {
+  Future<void> updateValues(
+      {ThemeMode? themeMode,
+      bool? enableHaptics,
+      bool? mirrorGlyphView}) async {
     var current = state.value!;
 
     var new_ = AppPrefs(
-        themeMode ?? current.themeMode, enableHaptics ?? current.enableHaptics);
+        themeMode ?? current.themeMode,
+        enableHaptics ?? current.enableHaptics,
+        mirrorGlyphView ?? current.mirrorGlyphView);
 
     await new_.saveToLocalStorage();
 
